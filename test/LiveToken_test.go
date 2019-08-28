@@ -1,59 +1,39 @@
 package test
 
 import (
-	"net/http"
 	"os"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/onsi/gomega/ghttp"
 	"github.com/taxjar/taxjar-go"
-	"github.com/taxjar/taxjar-go/test/mocks"
 )
 
-var IsLiveTestRun = os.Getenv("TAXJAR_API_KEY") != ""
-
-var _ = Describe("Method:", func() {
+var _ = Describe("using a live/sandbox token", func() {
 	RegisterFailHandler(Fail)
 	defer GinkgoRecover()
 
-	var server *ghttp.Server
 	var client taxjar.Config
 
 	BeforeEach(func() {
-		if IsLiveTestRun {
-			Skip("TAXJAR_API_KEY environment variable must not be set")
+		if !IsLiveTestRun {
+			Skip("TAXJAR_API_KEY environment variable must be set")
 		}
-		server = ghttp.NewServer()
 		client = taxjar.NewClient(taxjar.Config{
-			APIKey: "test123",
-			APIURL: server.URL(),
+			APIKey: os.Getenv("TAXJAR_API_KEY"),
+			APIURL: os.Getenv("TAXJAR_API_URL"),
 		})
-	})
-
-	AfterEach(func() {
-		server.Close()
 	})
 
 	Context("Categories", func() {
 		It("lists tax categories", func() {
-			server.AppendHandlers(ghttp.CombineHandlers(
-				ghttp.VerifyRequest("GET", "/v2/categories"),
-				ghttp.RespondWith(http.StatusOK, mocks.CategoriesJSON),
-			))
 			res, err := client.Categories()
-			Expect(server.ReceivedRequests()).To(HaveLen(1))
 			Expect(err).NotTo(HaveOccurred())
-			Expect(res).To(Equal(&mocks.Categories))
+			Expect(res.Categories).To(Not(BeNil()))
 		})
 	})
 
 	Context("TaxForOrder", func() {
 		It("calculates tax for a US-based order", func() {
-			server.AppendHandlers(ghttp.CombineHandlers(
-				ghttp.VerifyRequest("POST", "/v2/taxes"),
-				ghttp.RespondWith(http.StatusOK, mocks.USTaxForOrderJSON),
-			))
 			res, err := client.TaxForOrder(taxjar.TaxForOrderParams{
 				FromCountry:   "US",
 				FromZip:       "92093",
@@ -69,6 +49,12 @@ var _ = Describe("Method:", func() {
 				Shipping:      1.5,
 				CustomerID:    "123",
 				ExemptionType: "non_exempt",
+				NexusAddresses: []taxjar.NexusAddress{
+					taxjar.NexusAddress{
+						Country: "US",
+						State:   "CA",
+					},
+				},
 				LineItems: []taxjar.TaxLineItem{
 					taxjar.TaxLineItem{
 						ID:             "1",
@@ -79,15 +65,10 @@ var _ = Describe("Method:", func() {
 					},
 				},
 			})
-			Expect(server.ReceivedRequests()).To(HaveLen(1))
 			Expect(err).NotTo(HaveOccurred())
-			Expect(res).To(Equal(mocks.USTaxForOrder))
+			Expect(res.Tax).To(Not(BeNil()))
 		})
 		It("calculates tax for a CA-based order", func() {
-			server.AppendHandlers(ghttp.CombineHandlers(
-				ghttp.VerifyRequest("POST", "/v2/taxes"),
-				ghttp.RespondWith(http.StatusOK, mocks.CATaxForOrderJSON),
-			))
 			res, err := client.TaxForOrder(taxjar.TaxForOrderParams{
 				FromCountry:   "US",
 				FromZip:       "92093",
@@ -103,6 +84,12 @@ var _ = Describe("Method:", func() {
 				Shipping:      1.5,
 				CustomerID:    "123",
 				ExemptionType: "non_exempt",
+				NexusAddresses: []taxjar.NexusAddress{
+					taxjar.NexusAddress{
+						Country: "CA",
+						State:   "BC",
+					},
+				},
 				LineItems: []taxjar.TaxLineItem{
 					taxjar.TaxLineItem{
 						ID:             "1",
@@ -113,15 +100,10 @@ var _ = Describe("Method:", func() {
 					},
 				},
 			})
-			Expect(server.ReceivedRequests()).To(HaveLen(1))
 			Expect(err).NotTo(HaveOccurred())
-			Expect(res).To(Equal(mocks.CATaxForOrder))
+			Expect(res.Tax).To(Not(BeNil()))
 		})
 		It("calculates tax for an EU-based order", func() {
-			server.AppendHandlers(ghttp.CombineHandlers(
-				ghttp.VerifyRequest("POST", "/v2/taxes"),
-				ghttp.RespondWith(http.StatusOK, mocks.EUTaxForOrderJSON),
-			))
 			res, err := client.TaxForOrder(taxjar.TaxForOrderParams{
 				FromCountry:   "US",
 				FromZip:       "92093",
@@ -136,6 +118,11 @@ var _ = Describe("Method:", func() {
 				Shipping:      1.5,
 				CustomerID:    "123",
 				ExemptionType: "non_exempt",
+				NexusAddresses: []taxjar.NexusAddress{
+					taxjar.NexusAddress{
+						Country: "FR",
+					},
+				},
 				LineItems: []taxjar.TaxLineItem{
 					taxjar.TaxLineItem{
 						ID:             "1",
@@ -146,48 +133,23 @@ var _ = Describe("Method:", func() {
 					},
 				},
 			})
-			Expect(server.ReceivedRequests()).To(HaveLen(1))
 			Expect(err).NotTo(HaveOccurred())
-			Expect(res).To(Equal(mocks.EUTaxForOrder))
+			Expect(res.Tax).To(Not(BeNil()))
 		})
 	})
 
 	Context("ListOrders", func() {
 		It("lists orders", func() {
-			server.AppendHandlers(ghttp.CombineHandlers(
-				ghttp.VerifyRequest("GET", "/v2/transactions/orders"),
-				ghttp.RespondWith(http.StatusOK, mocks.ListOrdersJSON),
-			))
 			res, err := client.ListOrders(taxjar.ListOrdersParams{
 				TransactionDate: "2019/08/26",
 			})
-			Expect(server.ReceivedRequests()).To(HaveLen(1))
 			Expect(err).NotTo(HaveOccurred())
-			Expect(res).To(Equal(mocks.ListOrders))
-		})
-	})
-
-	Context("ShowOrder", func() {
-		It("shows an order", func() {
-			server.AppendHandlers(ghttp.CombineHandlers(
-				ghttp.VerifyRequest("GET", "/v2/transactions/orders/24"),
-				ghttp.RespondWith(http.StatusOK, mocks.ShowOrderJSON),
-			))
-			res, err := client.ShowOrder("24", taxjar.ShowOrderParams{
-				Provider: "api",
-			})
-			Expect(server.ReceivedRequests()).To(HaveLen(1))
-			Expect(err).NotTo(HaveOccurred())
-			Expect(res).To(Equal(mocks.ShowOrder))
+			Expect(res.Orders).NotTo(BeNil())
 		})
 	})
 
 	Context("CreateOrder", func() {
 		It("creates an order", func() {
-			server.AppendHandlers(ghttp.CombineHandlers(
-				ghttp.VerifyRequest("POST", "/v2/transactions/orders"),
-				ghttp.RespondWith(http.StatusOK, mocks.CreateOrderJSON),
-			))
 			res, err := client.CreateOrder(taxjar.CreateOrderParams{
 				TransactionID:   "24",
 				TransactionDate: "2019/08/26",
@@ -220,21 +182,24 @@ var _ = Describe("Method:", func() {
 					},
 				},
 			})
-			Expect(server.ReceivedRequests()).To(HaveLen(1))
 			Expect(err).NotTo(HaveOccurred())
-			Expect(res).To(Equal(mocks.CreateOrder))
+			Expect(res.Order).NotTo(BeNil())
+		})
+	})
+
+	Context("ShowOrder", func() {
+		It("shows an order", func() {
+			res, err := client.ShowOrder("24", taxjar.ShowOrderParams{
+				Provider: "api",
+			})
+			Expect(err).NotTo(HaveOccurred())
+			Expect(res.Order).NotTo(BeNil())
 		})
 	})
 
 	Context("UpdateOrder", func() {
 		It("udpates an order", func() {
-			server.AppendHandlers(ghttp.CombineHandlers(
-				ghttp.VerifyRequest("PUT", "/v2/transactions/orders/24"),
-				ghttp.RespondWith(http.StatusOK, mocks.UpdateOrderJSON),
-			))
-
 			res, err := client.UpdateOrder(taxjar.UpdateOrderParams{
-
 				TransactionID: "24",
 				Amount:        161,
 				SalesTax:      10.3,
@@ -261,62 +226,32 @@ var _ = Describe("Method:", func() {
 					},
 				},
 			})
-			Expect(server.ReceivedRequests()).To(HaveLen(1))
 			Expect(err).NotTo(HaveOccurred())
-			Expect(res).To(Equal(mocks.UpdateOrder))
+			Expect(res.Order).NotTo(BeNil())
 		})
 	})
 
 	Context("DeleteOrder", func() {
 		It("deletes an order", func() {
-			server.AppendHandlers(ghttp.CombineHandlers(
-				ghttp.VerifyRequest("DELETE", "/v2/transactions/orders/24"),
-				ghttp.RespondWith(http.StatusOK, mocks.DeleteOrderJSON),
-			))
 			res, err := client.DeleteOrder("24", taxjar.DeleteOrderParams{Provider: "api"})
-			Expect(server.ReceivedRequests()).To(HaveLen(1))
 			Expect(err).NotTo(HaveOccurred())
-			Expect(res).To(Equal(mocks.DeleteOrder))
+			Expect(res.Order).NotTo(BeNil())
 		})
 	})
 
 	Context("ListRefunds", func() {
 		It("lists refunds", func() {
-			server.AppendHandlers(ghttp.CombineHandlers(
-				ghttp.VerifyRequest("GET", "/v2/transactions/refunds"),
-				ghttp.RespondWith(http.StatusOK, mocks.ListRefundsJSON),
-			))
 			res, err := client.ListRefunds(taxjar.ListRefundsParams{
 				TransactionDate: "2019/08/26",
 				Provider:        "api",
 			})
-			Expect(server.ReceivedRequests()).To(HaveLen(1))
 			Expect(err).NotTo(HaveOccurred())
-			Expect(res).To(Equal(mocks.ListRefunds))
-		})
-	})
-
-	Context("ShowRefund", func() {
-		It("shows a refund", func() {
-			server.AppendHandlers(ghttp.CombineHandlers(
-				ghttp.VerifyRequest("GET", "/v2/transactions/refunds/24-refund"),
-				ghttp.RespondWith(http.StatusOK, mocks.ShowRefundJSON),
-			))
-			res, err := client.ShowRefund("24-refund", taxjar.ShowRefundParams{
-				Provider: "api",
-			})
-			Expect(server.ReceivedRequests()).To(HaveLen(1))
-			Expect(err).NotTo(HaveOccurred())
-			Expect(res).To(Equal(mocks.ShowRefund))
+			Expect(res.Refunds).NotTo(BeNil())
 		})
 	})
 
 	Context("CreateRefund", func() {
 		It("creates a refund", func() {
-			server.AppendHandlers(ghttp.CombineHandlers(
-				ghttp.VerifyRequest("POST", "/v2/transactions/refunds"),
-				ghttp.RespondWith(http.StatusOK, mocks.CreateRefundJSON),
-			))
 			res, err := client.CreateRefund(taxjar.CreateRefundParams{
 				TransactionID:          "24-refund",
 				TransactionReferenceID: "24",
@@ -360,165 +295,124 @@ var _ = Describe("Method:", func() {
 					},
 				},
 			})
-			Expect(server.ReceivedRequests()).To(HaveLen(1))
 			Expect(err).NotTo(HaveOccurred())
-			Expect(res).To(Equal(mocks.CreateRefund))
+			Expect(res.Refund).NotTo(BeNil())
 		})
 	})
 
 	Context("UpdateRefund", func() {
 		It("updates a refund", func() {
-			server.AppendHandlers(ghttp.CombineHandlers(
-				ghttp.VerifyRequest("PUT", "/v2/transactions/refunds/24-refund"),
-				ghttp.RespondWith(http.StatusOK, mocks.UpdateRefundJSON),
-			))
 			res, err := client.UpdateRefund(taxjar.UpdateRefundParams{
 				TransactionID:          "24-refund",
 				TransactionReferenceID: "24",
 				Shipping:               -5,
 			})
-			Expect(server.ReceivedRequests()).To(HaveLen(1))
 			Expect(err).NotTo(HaveOccurred())
-			Expect(res).To(Equal(mocks.UpdateRefund))
+			Expect(res.Refund).NotTo(BeNil())
 		})
 	})
 
 	Context("DeleteRefund", func() {
 		It("deletes a refund", func() {
-			server.AppendHandlers(ghttp.CombineHandlers(
-				ghttp.VerifyRequest("DELETE", "/v2/transactions/refunds/24-refund"),
-				ghttp.RespondWith(http.StatusOK, mocks.DeleteRefundJSON),
-			))
 			res, err := client.DeleteRefund("24-refund", taxjar.DeleteRefundParams{
 				Provider: "api",
 			})
-			Expect(server.ReceivedRequests()).To(HaveLen(1))
 			Expect(err).NotTo(HaveOccurred())
-			Expect(res).To(Equal(mocks.DeleteRefund))
+			Expect(res.Refund).NotTo(BeNil())
 		})
 	})
 
-	Context("ListCustomers", func() {
-		It("lists customers", func() {
-			server.AppendHandlers(ghttp.CombineHandlers(
-				ghttp.VerifyRequest("GET", "/v2/customers"),
-				ghttp.RespondWith(http.StatusOK, mocks.ListCustomersJSON),
-			))
-			res, err := client.ListCustomers()
-			Expect(server.ReceivedRequests()).To(HaveLen(1))
-			Expect(err).NotTo(HaveOccurred())
-			Expect(res).To(Equal(mocks.ListCustomers))
+	Describe("Customer endpoint:", func() {
+		BeforeEach(func() {
+			if client.APIURL == taxjar.SandboxAPIURL {
+				Skip("Customer endpoints not available in sandbox; switch to live token to test")
+			}
 		})
-	})
 
-	Context("ShowCustomer", func() {
-		It("shows a customer", func() {
-			server.AppendHandlers(ghttp.CombineHandlers(
-				ghttp.VerifyRequest("GET", "/v2/customers/123"),
-				ghttp.RespondWith(http.StatusOK, mocks.ShowCustomerJSON),
-			))
-			res, err := client.ShowCustomer("123")
-			Expect(server.ReceivedRequests()).To(HaveLen(1))
-			Expect(err).NotTo(HaveOccurred())
-			Expect(res).To(Equal(mocks.ShowCustomer))
+		Context("ListCustomers", func() {
+			It("lists customers", func() {
+				res, err := client.ListCustomers()
+				Expect(err).NotTo(HaveOccurred())
+				Expect(res.Customers).NotTo(BeNil())
+			})
 		})
-	})
 
-	Context("CreateCustomer", func() {
-		It("creates a customer", func() {
-			server.AppendHandlers(ghttp.CombineHandlers(
-				ghttp.VerifyRequest("POST", "/v2/customers"),
-				ghttp.RespondWith(http.StatusOK, mocks.CreateCustomerJSON),
-			))
-			res, err := client.CreateCustomer(taxjar.CreateCustomerParams{
-				CustomerID:    "123",
-				ExemptionType: "wholesale",
-				Name:          "Initech",
-				ExemptRegions: []taxjar.ExemptRegion{
-					taxjar.ExemptRegion{
-						Country: "US",
-						State:   "TX",
+		Context("CreateCustomer", func() {
+			It("creates a customer", func() {
+				res, err := client.CreateCustomer(taxjar.CreateCustomerParams{
+					CustomerID:    "123",
+					ExemptionType: "wholesale",
+					Name:          "Initech",
+					ExemptRegions: []taxjar.ExemptRegion{
+						taxjar.ExemptRegion{
+							Country: "US",
+							State:   "TX",
+						},
 					},
-				},
-				Country: "US",
-				State:   "TX",
-				Zip:     "78744",
-				City:    "Austin",
-				Street:  "4120 Freidrich Lane",
+					Country: "US",
+					State:   "TX",
+					Zip:     "78744",
+					City:    "Austin",
+					Street:  "4120 Freidrich Lane",
+				})
+				Expect(err).NotTo(HaveOccurred())
+				Expect(res.Customer).NotTo(BeNil())
 			})
-			Expect(server.ReceivedRequests()).To(HaveLen(1))
-			Expect(err).NotTo(HaveOccurred())
-			Expect(res).To(Equal(mocks.CreateCustomer))
 		})
-	})
 
-	Context("UpdateCustomer", func() {
-		It("updates a customer", func() {
-			server.AppendHandlers(ghttp.CombineHandlers(
-				ghttp.VerifyRequest("PUT", "/v2/customers/123"),
-				ghttp.RespondWith(http.StatusOK, mocks.UpdateCustomerJSON),
-			))
-			res, err := client.UpdateCustomer(taxjar.UpdateCustomerParams{
-				CustomerID:    "123",
-				ExemptionType: "non_exempt",
-				Name:          "Initech",
+		Context("ShowCustomer", func() {
+			It("shows a customer", func() {
+				res, err := client.ShowCustomer("123")
+				Expect(err).NotTo(HaveOccurred())
+				Expect(res.Customer).NotTo(BeNil())
 			})
-			Expect(server.ReceivedRequests()).To(HaveLen(1))
-			Expect(err).NotTo(HaveOccurred())
-			Expect(res).To(Equal(mocks.UpdateCustomer))
 		})
-	})
 
-	Context("DeleteCustomer", func() {
-		It("deletes a customer", func() {
-			server.AppendHandlers(ghttp.CombineHandlers(
-				ghttp.VerifyRequest("DELETE", "/v2/customers/123"),
-				ghttp.RespondWith(http.StatusOK, mocks.DeleteCustomerJSON),
-			))
-			res, err := client.DeleteCustomer("123")
-			Expect(server.ReceivedRequests()).To(HaveLen(1))
-			Expect(err).NotTo(HaveOccurred())
-			Expect(res).To(Equal(mocks.DeleteCustomer))
+		Context("UpdateCustomer", func() {
+			It("updates a customer", func() {
+				res, err := client.UpdateCustomer(taxjar.UpdateCustomerParams{
+					CustomerID:    "123",
+					ExemptionType: "non_exempt",
+					Name:          "Initech",
+				})
+				Expect(err).NotTo(HaveOccurred())
+				Expect(res.Customer).NotTo(BeNil())
+			})
+		})
+
+		Context("DeleteCustomer", func() {
+			It("deletes a customer", func() {
+				res, err := client.DeleteCustomer("123")
+				Expect(err).NotTo(HaveOccurred())
+				Expect(res.Customer).NotTo(BeNil())
+			})
 		})
 	})
 
 	Context("RatesForLocation", func() {
 		It("looks up rates", func() {
-			server.AppendHandlers(ghttp.CombineHandlers(
-				ghttp.VerifyRequest("GET", "/v2/rates/89001"),
-				ghttp.RespondWith(http.StatusOK, mocks.RatesForLocationJSON),
-			))
 			res, err := client.RatesForLocation("89001", taxjar.RatesForLocationParams{
 				Country: "US",
 				State:   "NV",
 				City:    "Alamo",
 				Street:  "Mail Box Rd",
 			})
-			Expect(server.ReceivedRequests()).To(HaveLen(1))
 			Expect(err).NotTo(HaveOccurred())
-			Expect(res).To(Equal(mocks.RatesForLocation))
+			Expect(res.Rate).NotTo(BeNil())
 		})
 	})
 
 	Context("NexusRegions", func() {
 		It("lists nexus regions", func() {
-			server.AppendHandlers(ghttp.CombineHandlers(
-				ghttp.VerifyRequest("GET", "/v2/nexus/regions"),
-				ghttp.RespondWith(http.StatusOK, mocks.NexusRegionsJSON),
-			))
 			res, err := client.NexusRegions()
-			Expect(server.ReceivedRequests()).To(HaveLen(1))
 			Expect(err).NotTo(HaveOccurred())
-			Expect(res).To(Equal(mocks.NexusRegions))
+			Expect(res.Regions).NotTo(BeNil())
 		})
 	})
 
-	Context("ValidateAddress", func() {
+	// Remove the `X` in `XContext to run ValidateAddress tests`
+	XContext("ValidateAddress", func() {
 		It("validates an address", func() {
-			server.AppendHandlers(ghttp.CombineHandlers(
-				ghttp.VerifyRequest("POST", "/v2/addresses/validate"),
-				ghttp.RespondWith(http.StatusOK, mocks.ValidateAddressJSON),
-			))
 			res, err := client.ValidateAddress(taxjar.ValidateAddressParams{
 				Country: "US",
 				State:   "AZ",
@@ -526,37 +420,26 @@ var _ = Describe("Method:", func() {
 				City:    "Gilbert",
 				Street:  "3301 South Greenfield Rd",
 			})
-			Expect(server.ReceivedRequests()).To(HaveLen(1))
 			Expect(err).NotTo(HaveOccurred())
-			Expect(res).To(Equal(mocks.ValidateAddress))
+			Expect(res.Addresses).NotTo(BeNil())
 		})
 	})
 
 	Context("Validate", func() {
 		It("validates an VAT identification number", func() {
-			server.AppendHandlers(ghttp.CombineHandlers(
-				ghttp.VerifyRequest("GET", "/v2/validation"),
-				ghttp.RespondWith(http.StatusOK, mocks.ValidateJSON),
-			))
 			res, err := client.Validate(taxjar.ValidateParams{
 				VAT: "FR40303265045",
 			})
-			Expect(server.ReceivedRequests()).To(HaveLen(1))
 			Expect(err).NotTo(HaveOccurred())
-			Expect(res).To(Equal(mocks.Validate))
+			Expect(res.Validation).NotTo(BeNil())
 		})
 	})
 
 	Context("SummaryRates", func() {
 		It("summarizes rates", func() {
-			server.AppendHandlers(ghttp.CombineHandlers(
-				ghttp.VerifyRequest("GET", "/v2/summary_rates"),
-				ghttp.RespondWith(http.StatusOK, mocks.SummaryRatesJSON),
-			))
 			res, err := client.SummaryRates()
-			Expect(server.ReceivedRequests()).To(HaveLen(1))
 			Expect(err).NotTo(HaveOccurred())
-			Expect(res).To(Equal(mocks.SummaryRates))
+			Expect(res.SummaryRates).NotTo(BeNil())
 		})
 	})
 
