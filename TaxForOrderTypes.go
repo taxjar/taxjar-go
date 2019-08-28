@@ -99,6 +99,20 @@ type Breakdown struct {
 	SpecialDistrictTaxCollectable float64             `json:"special_district_tax_collectable"`
 	Shipping                      Shipping            `json:"shipping"`
 	LineItems                     []LineItemBreakdown `json:"line_items"`
+	// Canada
+	GSTTaxableAmount float64 `json:"gst_taxable_amount"`
+	GSTTaxRate       float64 `json:"gst_tax_rate"`
+	GST              float64 `json:"gst"`
+	PSTTaxableAmount float64 `json:"pst_taxable_amount"`
+	PSTTaxRate       float64 `json:"pst_tax_rate"`
+	PST              float64 `json:"pst"`
+	QSTTaxableAmount float64 `json:"qst_taxable_amount"`
+	QSTTaxRate       float64 `json:"qst_tax_rate"`
+	QST              float64 `json:"qst"`
+	// Other International Breakdown Attributes
+	CountryTaxableAmount  float64 `json:"country_taxable_amount"`
+	CountryTaxRate        float64 `json:"country_tax_rate"`
+	CountryTaxCollectable float64 `json:"country_tax_collectable"`
 }
 
 // TaxForOrderResponse - TODO (document this)
