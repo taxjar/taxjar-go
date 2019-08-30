@@ -35,7 +35,7 @@ func main() {
 		Amount:      15,
 		Shipping:    1.5,
 		LineItems: []taxjar.TaxLineItem{
-			taxjar.TaxLineItem{
+			{
 				ID:             "1",
 				Quantity:       1,
 				ProductTaxCode: "20010",
@@ -61,7 +61,7 @@ func main() {
 		Shipping:        5,
 		SalesTax:        0,
 		LineItems: []taxjar.OrderLineItem{
-			taxjar.OrderLineItem{
+			{
 				ID:                "1",
 				Quantity:          1,
 				ProductIdentifier: "12-34243-9",
@@ -93,7 +93,7 @@ func main() {
 		Shipping:      10,
 		SalesTax:      10.74,
 		LineItems: []taxjar.OrderLineItem{
-			taxjar.OrderLineItem{
+			{
 				ID:                "1",
 				Quantity:          1,
 				ProductIdentifier: "12-34243-9",
@@ -103,7 +103,7 @@ func main() {
 				Discount:          5.51,
 				SalesTax:          0,
 			},
-			taxjar.OrderLineItem{
+			{
 				ID:                "2",
 				Quantity:          1,
 				ProductIdentifier: "12-34245-8",
@@ -144,7 +144,7 @@ func main() {
 		Shipping:               -0,
 		SalesTax:               -10.74,
 		LineItems: []taxjar.RefundLineItem{
-			taxjar.RefundLineItem{
+			{
 				ID:                "1",
 				Quantity:          1,
 				ProductIdentifier: "12-34243-9",
@@ -154,7 +154,7 @@ func main() {
 				Discount:          -0,
 				SalesTax:          -0,
 			},
-			taxjar.RefundLineItem{
+			{
 				ID:                "2",
 				Quantity:          1,
 				ProductIdentifier: "12-34245-8",
@@ -206,7 +206,7 @@ func main() {
 		ExemptionType: "wholesale",
 		Name:          "Initech",
 		ExemptRegions: []taxjar.ExemptRegion{
-			taxjar.ExemptRegion{
+			{
 				Country: "US",
 				State:   "TX",
 			},

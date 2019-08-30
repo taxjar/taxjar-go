@@ -10,11 +10,11 @@ type ValidateParams struct {
 // VIESResponse - TODO (document this)
 type VIESResponse struct {
 	CountryCode string `json:"country_code"`
-	VATNumber string `json:"vat_number"`
+	VATNumber   string `json:"vat_number"`
 	RequestDate string `json:"request_date"`
-	Valid bool `json:"valid"`
-	Name string `json:"name"`
-	Address string `json:"address"`
+	Valid       bool   `json:"valid"`
+	Name        string `json:"name"`
+	Address     string `json:"address"`
 }
 
 // ValidateResponse - TODO (document this)

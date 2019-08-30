@@ -70,7 +70,7 @@ var _ = Describe("Method:", func() {
 				CustomerID:    "123",
 				ExemptionType: "non_exempt",
 				LineItems: []taxjar.TaxLineItem{
-					taxjar.TaxLineItem{
+					{
 						ID:             "1",
 						Quantity:       1,
 						ProductTaxCode: "20010",
@@ -104,7 +104,7 @@ var _ = Describe("Method:", func() {
 				CustomerID:    "123",
 				ExemptionType: "non_exempt",
 				LineItems: []taxjar.TaxLineItem{
-					taxjar.TaxLineItem{
+					{
 						ID:             "1",
 						Quantity:       1,
 						ProductTaxCode: "20010",
@@ -137,7 +137,7 @@ var _ = Describe("Method:", func() {
 				CustomerID:    "123",
 				ExemptionType: "non_exempt",
 				LineItems: []taxjar.TaxLineItem{
-					taxjar.TaxLineItem{
+					{
 						ID:             "1",
 						Quantity:       1,
 						ProductTaxCode: "20010",
@@ -208,7 +208,7 @@ var _ = Describe("Method:", func() {
 				CustomerID:      "123",
 				ExemptionType:   "non_exempt",
 				LineItems: []taxjar.OrderLineItem{
-					taxjar.OrderLineItem{
+					{
 						ID:                "1",
 						Quantity:          1,
 						ProductIdentifier: "10-12345-987",
@@ -239,7 +239,7 @@ var _ = Describe("Method:", func() {
 				Amount:        161,
 				SalesTax:      10.3,
 				LineItems: []taxjar.OrderLineItem{
-					taxjar.OrderLineItem{
+					{
 						ID:                "1",
 						Quantity:          1,
 						ProductIdentifier: "10-12345-987",
@@ -249,7 +249,7 @@ var _ = Describe("Method:", func() {
 						Discount:          0,
 						SalesTax:          0,
 					},
-					taxjar.OrderLineItem{
+					{
 						ID:                "2",
 						Quantity:          1,
 						ProductIdentifier: "78-95432-101",
@@ -338,7 +338,7 @@ var _ = Describe("Method:", func() {
 				CustomerID:             "123",
 				ExemptionType:          "non_exempt",
 				LineItems: []taxjar.RefundLineItem{
-					taxjar.RefundLineItem{
+					{
 						ID:                "1",
 						Quantity:          1,
 						ProductIdentifier: "10-12345-987",
@@ -348,7 +348,7 @@ var _ = Describe("Method:", func() {
 						Discount:          -0,
 						SalesTax:          -0,
 					},
-					taxjar.RefundLineItem{
+					{
 						ID:                "2",
 						Quantity:          1,
 						ProductIdentifier: "78-95432-101",
@@ -435,7 +435,7 @@ var _ = Describe("Method:", func() {
 				ExemptionType: "wholesale",
 				Name:          "Initech",
 				ExemptRegions: []taxjar.ExemptRegion{
-					taxjar.ExemptRegion{
+					{
 						Country: "US",
 						State:   "TX",
 					},
