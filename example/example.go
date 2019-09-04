@@ -274,8 +274,12 @@ func main() {
 		City:    "Gilbert",
 		Street:  "3301 South Greenfield Rd",
 	})
-	if err != nil {
-		fmt.Println("\nValidateAddress", err)
+	if err := err.(*taxjar.Error); err != nil {
+		fmt.Println(err)
+		// fmt.Println(err.Status)
+		// fmt.Println(err.Err)
+		// fmt.Println(err.Detail)
+		// fmt.Printf("%+v", errors.Wrap(err, ""))
 	} else {
 		fmt.Println("\nValidateAddress", res20.Addresses)
 	}

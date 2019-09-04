@@ -35,6 +35,23 @@ var _ = Describe("Method:", func() {
 		server.Close()
 	})
 
+	Context("Error", func() {
+		It("s/b an error string, and allow extracting `Status`, `Err`, & `Detail`", func() {
+			server.AppendHandlers(ghttp.CombineHandlers(
+				ghttp.VerifyRequest("GET", "/v2/categories"),
+				ghttp.RespondWith(401, mocks.ErrorJSON),
+			))
+			_, err := client.Categories()
+			Expect(err).To(MatchError(mocks.Error.Error()))
+			// assert to `*taxjar.Error` to extract details
+			if err := err.(*taxjar.Error); true {
+				Expect(err.Status).To(Equal(mocks.Error.Status))
+				Expect(err.Err).To(Equal(mocks.Error.Err))
+				Expect(err.Detail).To(Equal(mocks.Error.Detail))
+			}
+		})
+	})
+
 	Context("Categories", func() {
 		It("lists tax categories", func() {
 			server.AppendHandlers(ghttp.CombineHandlers(

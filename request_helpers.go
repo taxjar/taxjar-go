@@ -1,6 +1,7 @@
 package taxjar
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -80,8 +81,10 @@ func (client *Config) sendRequest(req *http.Request) ([]byte, error) {
 	}
 	defer res.Body.Close()
 	body, _ := ioutil.ReadAll(res.Body)
-	if status := res.StatusCode; status >= 400 {
-		return nil, fmt.Errorf("taxjar: %d - %s", status, body)
+	if res.StatusCode >= 400 {
+		err := new(Error)
+		json.Unmarshal(body, err)
+		return nil, err
 	}
 	return body, nil
 }
