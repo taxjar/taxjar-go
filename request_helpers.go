@@ -37,15 +37,18 @@ var DefaultTransport = &http.Transport{
 }
 
 func (client *Config) setTimeouts() {
+	if client.HTTPClient == nil {
+		client.HTTPClient = &http.Client{}
+	}
 	if client.Timeout > 0 {
-		client.httpClient.Timeout = client.Timeout
-	} else {
-		client.httpClient.Timeout = DefaultTimeout
+		client.HTTPClient.Timeout = client.Timeout
+	} else if client.HTTPClient.Timeout <= 0 {
+		client.HTTPClient.Timeout = DefaultTimeout
 	}
 	if client.Transport != nil {
-		client.httpClient.Transport = client.Transport
-	} else {
-		client.httpClient.Transport = DefaultTransport
+		client.HTTPClient.Transport = client.Transport
+	} else if client.HTTPClient.Transport == nil {
+		client.HTTPClient.Transport = DefaultTransport
 	}
 }
 
@@ -75,7 +78,7 @@ func addQueryParams(req *http.Request, params interface{}) {
 func (client *Config) sendRequest(req *http.Request) ([]byte, error) {
 	client.addHeaders(req)
 	client.setTimeouts()
-	res, err := client.httpClient.Do(req)
+	res, err := client.HTTPClient.Do(req)
 	if err != nil {
 		return nil, err
 	}

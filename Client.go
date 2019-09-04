@@ -12,7 +12,7 @@ type Config struct {
 	APIKey     string
 	APIVersion string
 	Headers    map[string]interface{}
-	httpClient *http.Client
+	HTTPClient *http.Client
 	Timeout    time.Duration
 	Transport  *http.Transport
 }
@@ -40,6 +40,5 @@ func NewClient(config ...Config) Config {
 	if _config.APIVersion == "" {
 		_config.APIVersion = DefaultAPIVersion
 	}
-	_config.httpClient = &http.Client{}
 	return _config
 }

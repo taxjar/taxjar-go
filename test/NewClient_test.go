@@ -43,7 +43,7 @@ var _ = Describe("NewClient without config", func() {
 		Expect(client.APIVersion).To(Equal(APIVersion))
 	})
 
-	It("should allow setting customer headers", func() {
+	It("should allow setting custom headers", func() {
 		headers := map[string]interface{}{
 			"X-TJ-Expected-Response": 422,
 		}
@@ -82,6 +82,14 @@ var _ = Describe("NewClient without config", func() {
 		}
 		client.Transport = transport
 		Expect(client.Transport).To(Equal(transport))
+	})
+
+	It("should allow setting a custom *http.Client", func() {
+		httpClient := &http.Client{
+			Timeout: 10 * time.Minute,
+		}
+		client.HTTPClient = httpClient
+		Expect(client.HTTPClient).To(Equal(httpClient))
 	})
 
 })
