@@ -386,12 +386,52 @@ client.APIKey = os.Getenv("TAXJAR_API_KEY")
 client.APIURL = taxjar.SandboxAPIURL
 ```
 
-For testing specific [error response codes](https://developers.taxjar.com/api/reference/?go#errors), pass the custom `X-TJ-Expected-Response` header:
+## Optional Configuration
 
-```javascript
+To add additional headers to each request, assign them to `client.Headers`. For example, to test specific [error response codes](https://developers.taxjar.com/api/reference/?go#errors), pass the custom `X-TJ-Expected-Response` header:
+
+```go
 client.Headers = map[string]interface{}{
 	"X-TJ-Expected-Response": 422,
 }
+```
+
+If you'd like to customize the timeout for requests, pass a time value to `client.Timeout`.
+
+```go
+client.Timeout = 45 * time.Second // taxjar.DefaultTimeout: 30 * time.Second
+```
+
+To set more detailed timeouts, you may also pass a custom transport to `client.Transport`.
+
+```go
+client.Transport = &http.Transport{
+	DialContext: (&net.Dialer{
+		Timeout:   20 * Time.Second,
+		KeepAlive: 20 * Time.Second,
+	}).DialContext,
+	TLSHandshakeTimeout:   20 * time.Second,
+	ExpectContinueTimeout: 8 * time.Second,
+	ResponseHeaderTimeout: 6 * time.Second,
+}
+
+/* taxjar.DefaultTransport:
+&http.Transport{
+	DialContext: (&net.Dialer{
+		Timeout:   10 * Time.Second,
+		KeepAlive: 10 * Time.Second,
+	}).DialContext,
+	TLSHandshakeTimeout:   10 * time.Second,
+	ExpectContinueTimeout: 4 * time.Second,
+	ResponseHeaderTimeout: 3 * time.Second,
+}
+*/
+```
+
+For even more customization, pass a custom `*http.Client` to `client.HTTPClient`.
+
+```go
+client.HTTPClient = &http.Client{/* your configuration here */}
 ```
 
 ## Error Handling
