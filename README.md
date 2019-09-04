@@ -18,7 +18,7 @@ import "github.com/taxjar/taxjar-go"
 
 ## Authentication
 
-[Generate a TaxJar API token](https://app.taxjar.com/api_sign_up/). Enter the token when instantiating a new client. You may want to utilize an environment variable such as `TAXJAR_API_KEY` as seen below:
+[Generate a TaxJar API token](https://app.taxjar.com/api_sign_up/). Enter the token when instantiating with [`NewClient`](https://godoc.org/github.com/taxjar/taxjar-go/#NewClient). You may want to utilize an environment variable such as `TAXJAR_API_KEY` as seen below:
 
 ```go
 // Instantiate client with your TaxJar API token:
@@ -34,7 +34,7 @@ client.APIKey = os.Getenv("TAXJAR_API_KEY")
 
 ## Usage
 
-### List all tax categories <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-list-tax-categories), [GoDoc]())_</small>
+### List all tax categories <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-list-tax-categories), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.Categories))_</small>
 
 > The TaxJar API provides product-level tax rules for a subset of product categories. These categories are to be used for products that are either exempt from sales tax in some jurisdictions or are taxed at reduced rates. You need not pass in a product tax code for sales tax calculations on product that is fully taxable. Simply leave that parameter out.
 
@@ -43,7 +43,7 @@ res, _ := client.Categories()
 fmt.Println(res.Categories) // CategoriesResponse.Categories
 ```
 
-### Calculate sales tax for an order <small>_([API docs](https://developers.taxjar.com/api/reference/?go#post-calculate-sales-tax-for-an-order), [GoDoc]())_</small>
+### Calculate sales tax for an order <small>_([API docs](https://developers.taxjar.com/api/reference/?go#post-calculate-sales-tax-for-an-order), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.TaxForOrder))_</small>
 
 > Shows the sales tax that should be collected for a given order.
 
@@ -69,7 +69,7 @@ fmt.Println(res.Tax) // TaxForOrderResponse.Tax
 fmt.Println(res.Tax.AmountToCollect) // TaxForOrderResponse.Tax.AmountToCollect
 ```
 
-### List order transactions <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-list-order-transactions), [GoDoc]())_</small>
+### List order transactions <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-list-order-transactions), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.ListOrders))_</small>
 
 > Lists existing order transactions created through the API.
 
@@ -81,7 +81,7 @@ res, _ := client.ListOrders(ListOrdersParams{
 fmt.Println(res.Orders) // ListOrdersResponse.Orders
 ```
 
-### Show order transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-show-an-order-transaction), [GoDoc]())_</small>
+### Show order transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-show-an-order-transaction), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.ShowOrder))_</small>
 
 > Shows an existing order transaction created through the API.
 
@@ -90,7 +90,7 @@ res, _ := client.ShowOrder("123")
 fmt.Println(res.Order) // ShowOrderResponse.Order
 ```
 
-### Create order transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#post-create-an-order-transaction), [GoDoc]())_</small>
+### Create order transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#post-create-an-order-transaction), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.CreateOrder))_</small>
 
 > Creates a new order transaction.
 
@@ -119,7 +119,7 @@ res, _ := client.CreateOrder(taxjar.CreateOrderParams{
 fmt.Println(res.Order) // CreateOrderResponse.Order
 ```
 
-### Update order transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#put-update-an-order-transaction), [GoDoc]())_</small>
+### Update order transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#put-update-an-order-transaction), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.UpdateOrder))_</small>
 
 > Updates an existing order transaction created through the API.
 
@@ -142,7 +142,7 @@ res, _ := client.UpdateOrder(taxjar.UpdateOrderParams{
 fmt.Println(res.Order) // UpdateOrderResponse.Order
 ```
 
-### Delete order transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#delete-delete-an-order-transaction), [GoDoc]())_</small>
+### Delete order transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#delete-delete-an-order-transaction), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.DeleteOrder))_</small>
 
 > Deletes an existing order transaction created through the API.
 
@@ -151,7 +151,7 @@ res, _ := client.DeleteOrder("123")
 fmt.Println(res.Order) // DeleteOrderResponse.Order
 ```
 
-### List refund transactions <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-list-refund-transactions), [GoDoc]())_</small>
+### List refund transactions <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-list-refund-transactions), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.ListRefunds))_</small>
 
 > Lists existing refund transactions created through the API.
 
@@ -163,7 +163,7 @@ res, _ := client.ListRefunds(taxjar.ListRefundsParams{
 fmt.Println(res.Refunds) // ListRefundsResponse.Refunds
 ```
 
-### Show refund transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-show-a-refund-transaction), [GoDoc]())_</small>
+### Show refund transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-show-a-refund-transaction), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.ShowRefund))_</small>
 
 > Shows an existing refund transaction created through the API.
 
@@ -172,7 +172,7 @@ res, _ := client.ShowRefund("321")
 fmt.Println(res.Refund) // ShowRefundResponse.Refund
 ```
 
-### Create refund transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#post-create-a-refund-transaction), [GoDoc]())_</small>
+### Create refund transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#post-create-a-refund-transaction), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.CreateRefund))_</small>
 
 > Creates a new refund transaction.
 
@@ -202,7 +202,7 @@ res, _ := client.CreateRefund(taxjar.CreateRefundParams{
 fmt.Println(res.Refund) // CreateRefundResponse.Refund
 ```
 
-### Update refund transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#put-update-a-refund-transaction), [GoDoc]())_</small>
+### Update refund transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#put-update-a-refund-transaction), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.UpdateRefund))_</small>
 
 > Updates an existing refund transaction created through the API.
 
@@ -224,7 +224,7 @@ res, _ := client.UpdateRefund(taxjar.UpdateRefundParams{
 fmt.Println(res.Refund) // UpdateRefundResponse.Refund
 ```
 
-### Delete refund transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#delete-delete-a-refund-transaction), [GoDoc]())_</small>
+### Delete refund transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#delete-delete-a-refund-transaction), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.DeleteRefund))_</small>
 
 > Deletes an existing refund transaction created through the API.
 
@@ -233,7 +233,7 @@ res, _ := client.DeleteRefund("123")
 fmt.Println(res.Refund) // DeleteRefundResponse.Refund
 ```
 
-### List customers <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-list-customers), [GoDoc]())_</small>
+### List customers <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-list-customers), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.ListCustomers))_</small>
 
 > Lists existing customers created through the API.
 
@@ -242,7 +242,7 @@ res, _ := client.ListCustomers()
 fmt.Println(res.Customers) // ListCustomersResponse.Customers
 ```
 
-### Show customer <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-show-a-customer), [GoDoc]())_</small>
+### Show customer <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-show-a-customer), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.ShowCustomer))_</small>
 
 > Shows an existing customer created through the API.
 
@@ -251,7 +251,7 @@ res, _ := client.ShowCustomer("123")
 fmt.Println(res.Customer) // ShowCustomerResponse.Customer
 ```
 
-### Create customer <small>_([API docs](https://developers.taxjar.com/api/reference/?go#post-create-a-customer), [GoDoc]())_</small>
+### Create customer <small>_([API docs](https://developers.taxjar.com/api/reference/?go#post-create-a-customer), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.CreateCustomer))_</small>
 
 > Creates a new customer.
 
@@ -279,7 +279,7 @@ res, _ := client.CreateCustomer(taxjar.CreateCustomerParams{
 fmt.Println(res.Customer) // CreateCustomerResponse.Customer
 ```
 
-### Update customer <small>_([API docs](https://developers.taxjar.com/api/reference/?go#put-update-a-customer), [GoDoc]())_</small>
+### Update customer <small>_([API docs](https://developers.taxjar.com/api/reference/?go#put-update-a-customer), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.UpdateCustomer))_</small>
 
 > Updates an existing customer created through the API.
 
@@ -303,7 +303,7 @@ res, _ := client.UpdateCustomer(taxjar.UpdateCustomerParams{
 fmt.Println(res.Customer) // UpdateCustomerResponse.Customer
 ```
 
-### Delete customer <small>_([API docs](https://developers.taxjar.com/api/reference/?go#delete-delete-a-customer), [GoDoc]())_</small>
+### Delete customer <small>_([API docs](https://developers.taxjar.com/api/reference/?go#delete-delete-a-customer), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.DeleteCustomer))_</small>
 
 > Deletes an existing customer created through the API.
 
@@ -312,7 +312,7 @@ res, _ := client.DeleteCustomer("123")
 fmt.Println(res.Customer) // DeleteCustomerResponse.Customer
 ```
 
-### List tax rates for a location (by zip/postal code) <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-show-tax-rates-for-a-location), [GoDoc]())_</small>
+### List tax rates for a location (by zip/postal code) <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-show-tax-rates-for-a-location), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.RatesForLocation))_</small>
 
 > Shows the sales tax rates for a given location.
 >
@@ -323,7 +323,7 @@ res, _ := client.RatesForLocation("90002")
 fmt.Println(res.Rate) // RatesForLocationResponse.Rate
 ```
 
-### List nexus regions <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-list-nexus-regions), [GoDoc]())_</small>
+### List nexus regions <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-list-nexus-regions), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.NexusRegions))_</small>
 
 > Lists existing nexus locations for a TaxJar account.
 
@@ -332,7 +332,7 @@ res, _ := client.NexusRegions()
 fmt.Println(res.Regions) // NexusRegionsResponse.Regions
 ```
 
-### Validate an address <small>_([API docs](https://developers.taxjar.com/api/reference/?go#post-validate-an-address), [GoDoc]())_</small>
+### Validate an address <small>_([API docs](https://developers.taxjar.com/api/reference/?go#post-validate-an-address), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.ValidateAddress))_</small>
 
 > Validates a customer address and returns back a collection of address matches. **Address validation requires a [TaxJar Plus](https://www.taxjar.com/plus/) subscription.**
 
@@ -347,7 +347,7 @@ res, _ := client.ValidateAddress(taxjar.ValidateAddressParams{
 fmt.Println(res.Addresses) // ValidateAddressResponse.Addresses
 ```
 
-### Validate a VAT number <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-validate-a-vat-number), [GoDoc]())_</small>
+### Validate a VAT number <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-validate-a-vat-number), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.Validate))_</small>
 
 > Validates an existing VAT identification number against [VIES](http://ec.europa.eu/taxation_customs/vies/).
 
@@ -358,7 +358,7 @@ res, _ := client.Validate({
 fmt.Println(res.Validation) // ValidateResponse.Validation
 ```
 
-### Summarize tax rates for all regions <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-summarize-tax-rates-for-all-regions), [GoDoc]())_</small>
+### Summarize tax rates for all regions <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-summarize-tax-rates-for-all-regions), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.SummaryRates))_</small>
 
 > Retrieve minimum and average sales tax rates by region as a backup.
 
