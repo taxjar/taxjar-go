@@ -50,18 +50,24 @@ fmt.Println(res.Categories) // CategoriesResponse.Categories
 ```go
 res, _ := client.TaxForOrder(taxjar.TaxForOrderParams{
 	FromCountry: "US",
-	FromZip:     "07001",
-	FromState:   "NJ",
+	FromZip:     "94025",
+	FromState:   "CA",
+	FromCity:    "Menlo Park",
+	FromStreet:  "2825 Sand Hill Rd",
 	ToCountry:   "US",
-	ToZip:       "07446",
-	ToState:     "NJ",
-	Amount:      16.50,
-	Shipping:    1.5,
+	ToZip:       "94303",
+	ToState:     "CA",
+	ToCity:      "Palo Alto",
+	ToStreet:    "5230 Newell Road",
+	Amount:      267.9,
+	Shipping:    0,
 	LineItems:   []taxjar.TaxLineItem{
 		{
+			ID:             "1",
 			Quantity:       1,
-			UnitPrice:      15.0,
-			ProductTaxCode: "31000",
+			ProductTaxCode: "19005",
+			UnitPrice:      535.8,
+			Discount:       267.9,
 		},
 	},
 })
@@ -97,22 +103,29 @@ fmt.Println(res.Order) // ShowOrderResponse.Order
 ```go
 res, _ := client.CreateOrder(taxjar.CreateOrderParams{
 	TransactionID:   "123",
-	TransactionDate: "2015/05/14",
+	TransactionDate: "2019/05/15",
+	FromCountry:     "US",
+	FromZip:         "94025",
+	FromState:       "CA",
+	FromCity:        "Menlo Park",
+	FromStreet:      "2825 Sand Hill Rd",
 	ToCountry:       "US",
-	ToZip:           "90002",
+	ToZip:           "94303",
 	ToState:         "CA",
-	ToCity:          "Los Angeles",
-	ToStreet:        "123 Palm Grove Ln",
-	Amount:          17.45,
-	Shipping:        1.5,
-	SalesTax:        0.95,
+	ToCity:          "Palo Alto",
+	ToStreet:        "5230 Newell Road",
+	Amount:          267.9,
+	Shipping:        0,
+	SalesTax:        0,
 	LineItems:       []taxjar.OrderLineItem{
 		{
-			Quantity:          1,
-			ProductIdentifier: "12-34243-9",
-			Description:       "Fuzzy Widget",
-			UnitPrice:         15.0,
-			SalesTax:          0.95,
+			ID:             "1",
+			Quantity:       1,
+			Description:    "Legal Services",
+			ProductTaxCode: "19005",
+			UnitPrice:      535.8,
+			Discount:       267.9,
+			SalesTax:       0,
 		},
 	},
 })
@@ -126,16 +139,25 @@ fmt.Println(res.Order) // CreateOrderResponse.Order
 ```go
 res, _ := client.UpdateOrder(taxjar.UpdateOrderParams{
 	TransactionID: "123",
-	Amount:        17.45,
-	Shipping:      1.5,
+	Amount:        283.6,
+	Shipping:      5,
 	LineItems:     []taxjar.OrderLineItem{
 		{
-			Quantity:          1,
-			ProductIdentifier: "12-34243-0",
-			Description:       "Heavy Widget",
-			UnitPrice:         15.0,
-			Discount:          0.0,
-			SalesTax:          0.95,
+			ID:             "1",
+			Quantity:       1,
+			Description:    "Legal Services",
+			ProductTaxCode: "19005",
+			UnitPrice:      535.8,
+			Discount:       267.9,
+			SalesTax:       0,
+		},
+		{
+			ID:          "2",
+			Quantity:    2,
+			Description: "Hoberman Switch Pitch",
+			UnitPrice:   10.7,
+			Discount:    10.7,
+			SalesTax:    1.04,
 		},
 	},
 })
@@ -178,24 +200,39 @@ fmt.Println(res.Refund) // ShowRefundResponse.Refund
 
 ```go
 res, _ := client.CreateRefund(taxjar.CreateRefundParams{
-	TransactionID:          "123",
-	TransactionDate:        "2015/05/14",
+	TransactionID:          "123-refund",
 	TransactionReferenceID: "123",
+	TransactionDate:        "2019/05/15",
+	FromCountry:            "US",
+	FromZip:                "94025",
+	FromState:              "CA",
+	FromCity:               "Menlo Park",
+	FromStreet:             "2825 Sand Hill Rd",
 	ToCountry:              "US",
-	ToZip:                  "90002",
+	ToZip:                  "94303",
 	ToState:                "CA",
-	ToCity:                 "Los Angeles",
-	ToStreet:               "123 Palm Grove Ln",
-	Amount:                 17.45,
-	Shipping:               1.5,
-	SalesTax:               0.95,
+	ToCity:                 "Palo Alto",
+	ToStreet:               "5230 Newell Road",
+	Amount:                 -5.35,
+	Shipping:               -0,
+	SalesTax:               -0.52,
 	LineItems:              []taxjar.RefundLineItem{
 		{
-			Quantity:          1,
-			ProductIdentifier: "12-34243-9",
-			Description:       "Fuzzy Widget",
-			UnitPrice:         15.0,
-			SalesTax:          0.95,
+			ID:             "1",
+			Quantity:       1,
+			Description:    "Legal Services",
+			ProductTaxCode: "19005",
+			UnitPrice:      -0,
+			Discount:       -0,
+			SalesTax:       -0,
+		},
+		{
+			ID:          "2",
+			Quantity:    1,
+			Description: "Hoberman Switch Pitch",
+			UnitPrice:   -0,
+			Discount:    -5.35,
+			SalesTax:    -0.52,
 		},
 	},
 })
@@ -208,18 +245,10 @@ fmt.Println(res.Refund) // CreateRefundResponse.Refund
 
 ```go
 res, _ := client.UpdateRefund(taxjar.UpdateRefundParams{
-	TransactionID: "123",
-	Amount:        17.95,
-	Shipping:      2.0,
-	LineItems:     []taxjar.RefundLineItem{
-		{
-			Quantity:          1,
-			ProductIdentifier: "12-34243-0",
-			Description:       "Heavy Widget",
-			UnitPrice:         15.0,
-			SalesTax:          0.95,
-		},
-	},
+	TransactionID:          "123-refund",
+	TransactionReferenceID: "123",
+	Amount:                 -10.35,
+	Shipping:               -5,
 })
 fmt.Println(res.Refund) // UpdateRefundResponse.Refund
 ```
@@ -229,7 +258,7 @@ fmt.Println(res.Refund) // UpdateRefundResponse.Refund
 > Deletes an existing refund transaction created through the API.
 
 ```go
-res, _ := client.DeleteRefund("123")
+res, _ := client.DeleteRefund("123-refund")
 fmt.Println(res.Refund) // DeleteRefundResponse.Refund
 ```
 
@@ -259,22 +288,18 @@ fmt.Println(res.Customer) // ShowCustomerResponse.Customer
 res, _ := client.CreateCustomer(taxjar.CreateCustomerParams{
 	CustomerID:    "123",
 	ExemptionType: "wholesale",
-	Name:          "Dunder Mifflin Paper Company",
+	Name:          "Initech",
 	ExemptRegions: []taxjar.ExemptRegion{
 		{
 			Country: "US",
-			State:   "FL",
-		},
-		{
-			Country: "US",
-			State:   "PA",
+			State:   "TX",
 		},
 	},
-	Country:       "US",
-	State:         "PA",
-	Zip:           "18504",
-	City:          "Scranton",
-	Street:        "1725 Slough Avenue",
+	Country: "US",
+	State:   "TX",
+	Zip:     "78744",
+	City:    "Austin",
+	Street:  "4120 Freidrich Lane",
 })
 fmt.Println(res.Customer) // CreateCustomerResponse.Customer
 ```
@@ -286,19 +311,18 @@ fmt.Println(res.Customer) // CreateCustomerResponse.Customer
 ```go
 res, _ := client.UpdateCustomer(taxjar.UpdateCustomerParams{
 	CustomerID:    "123",
-	ExemptionType: "wholesale",
-	Name:          "Sterling Cooper",
+	ExemptionType: "non_exempt",
+	Name:          "Initech",
 	ExemptRegions: []taxjar.ExemptRegion{
 		{
 			Country: "US",
-			State:   "NY",
+			State:   "MA",
+		},
+		{
+			Country: "US",
+			State:   "TX",
 		},
 	},
-	Country:       "US",
-	State:         "NY",
-	Zip:           "10010",
-	City:          "New York",
-	Street:        "405 Madison Ave",
 })
 fmt.Println(res.Customer) // UpdateCustomerResponse.Customer
 ```
@@ -361,6 +385,8 @@ fmt.Println(res.Validation) // ValidateResponse.Validation
 ### Summarize tax rates for all regions <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-summarize-tax-rates-for-all-regions), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.SummaryRates))_</small>
 
 > Retrieve minimum and average sales tax rates by region as a backup.
+>
+> This method is useful for periodically pulling down rates to use if the SmartCalcs API is unavailable. However, it does not support nexus determination, sourcing based on a ship from and ship to address, shipping taxability, product exemptions, customer exemptions, or sales tax holidays. We recommend using [`TaxForOrder` to accurately calculate sales tax for an order](#calculate-sales-tax-for-an-order-smallAPI-docs-godocsmall)).
 
 ```go
 res, _ := client.SummaryRates()
@@ -369,20 +395,20 @@ fmt.Println(res.SummaryRates) // SummaryRatesResponse.SummaryRates
 
 ## Sandbox Environment
 
-You can easily configure the client to use the [TaxJar Sandbox](https://developers.taxjar.com/api/reference/?go#sandbox-environment):
+You may also configure the client to use [TaxJar's sandbox environment](https://developers.taxjar.com/api/reference/?go#sandbox-environment). **The sandbox environment requires a [TaxJar Plus](https://www.taxjar.com/plus/) subscription.**
 
 ```go
 import "github.com/taxjar/taxjar-go"
 
 // Instantiate client and set `APIURL`:
 client := taxjar.NewClient(taxjar.Config{
-	APIKey: os.Getenv("TAXJAR_API_KEY"),
+	APIKey: os.Getenv("TAXJAR_SANDBOX_API_KEY"),
 	APIURL: taxjar.SandboxAPIURL,
 })
 
 // or
 client := taxjar.NewClient()
-client.APIKey = os.Getenv("TAXJAR_API_KEY")
+client.APIKey = os.Getenv("TAXJAR_SANDBOX_API_KEY")
 client.APIURL = taxjar.SandboxAPIURL
 ```
 
@@ -439,18 +465,24 @@ client.HTTPClient = &http.Client{/* your configuration here */}
 ```go
 res, err := client.TaxForOrder(taxjar.TaxForOrderParams{
 	FromCountry: "US",
-	FromZip:     "07001",
-	FromState:   "NJ",
+	FromZip:     "94025",
+	FromState:   "CA",
+	FromCity:    "Menlo Park",
+	FromStreet:  "2825 Sand Hill Rd",
 	ToCountry:   "US",
-	ToZip:       "07446",
-	ToState:     "NJ",
-	Amount:      16.50,
-	Shipping:    1.5,
+	ToZip:       "94303",
+	ToState:     "CA",
+	ToCity:      "Palo Alto",
+	ToStreet:    "5230 Newell Road",
+	Amount:      267.9,
+	Shipping:    0,
 	LineItems:   []taxjar.TaxLineItem{
 		{
+			ID:             "1",
 			Quantity:       1,
-			UnitPrice:      15.0,
-			ProductTaxCode: "31000",
+			ProductTaxCode: "19005",
+			UnitPrice:      535.8,
+			Discount:       267.9,
 		},
 	},
 })
