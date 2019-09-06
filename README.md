@@ -20,6 +20,8 @@ import "github.com/taxjar/taxjar-go"
 
 [Generate a TaxJar API token](https://app.taxjar.com/api_sign_up/). Enter the token when instantiating with [`NewClient`](https://godoc.org/github.com/taxjar/taxjar-go/#NewClient). You may want to utilize an environment variable such as `TAXJAR_API_KEY` as seen below:
 
+**func [NewClient](https://godoc.org/github.com/taxjar/taxjar-go/#NewClient)(config ...[Config](https://godoc.org/github.com/taxjar/taxjar-go/#Config)) [Config](https://godoc.org/github.com/taxjar/taxjar-go/#Config)**
+
 ```go
 // Instantiate client with your TaxJar API token:
 client := taxjar.NewClient(taxjar.Config{
@@ -34,18 +36,22 @@ client.APIKey = os.Getenv("TAXJAR_API_KEY")
 
 ## Usage
 
-### List all tax categories <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-list-tax-categories), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.Categories))_</small>
+### List all tax categories <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-list-tax-categories))_</small>
 
 > The TaxJar API provides product-level tax rules for a subset of product categories. These categories are to be used for products that are either exempt from sales tax in some jurisdictions or are taxed at reduced rates. You need not pass in a product tax code for sales tax calculations on product that is fully taxable. Simply leave that parameter out.
+
+**func (client \*[Config](https://godoc.org/github.com/taxjar/taxjar-go/#Config)) [Categories](https://godoc.org/github.com/taxjar/taxjar-go/#Config.Categories)() (\*[CategoriesResponse](https://godoc.org/github.com/taxjar/taxjar-go/#CategoriesResponse), [error](https://godoc.org/builtin#error))**
 
 ```go
 res, _ := client.Categories()
 fmt.Println(res.Categories) // CategoriesResponse.Categories
 ```
 
-### Calculate sales tax for an order <small>_([API docs](https://developers.taxjar.com/api/reference/?go#post-calculate-sales-tax-for-an-order), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.TaxForOrder))_</small>
+### Calculate sales tax for an order <small>_([API docs](https://developers.taxjar.com/api/reference/?go#post-calculate-sales-tax-for-an-order))_</small>
 
 > Shows the sales tax that should be collected for a given order.
+
+**func (client \*[Config](https://godoc.org/github.com/taxjar/taxjar-go/#Config)) [TaxForOrder](https://godoc.org/github.com/taxjar/taxjar-go/#Config.TaxForOrder)(params [TaxForOrderParams](https://godoc.org/github.com/taxjar/taxjar-go/#TaxForOrderParams)) (\*[TaxForOrderResponse](https://godoc.org/github.com/taxjar/taxjar-go/#TaxForOrderResponse), [error](https://godoc.org/builtin/#error))**
 
 ```go
 res, _ := client.TaxForOrder(taxjar.TaxForOrderParams{
@@ -75,9 +81,11 @@ fmt.Println(res.Tax) // TaxForOrderResponse.Tax
 fmt.Println(res.Tax.AmountToCollect) // TaxForOrderResponse.Tax.AmountToCollect
 ```
 
-### List order transactions <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-list-order-transactions), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.ListOrders))_</small>
+### List order transactions <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-list-order-transactions))_</small>
 
 > Lists existing order transactions created through the API.
+
+**func (client \*[Config](https://godoc.org/github.com/taxjar/taxjar-go/#Config)) [ListOrders](https://godoc.org/github.com/taxjar/taxjar-go/#Config.ListOrders)(params [ListOrdersParams](https://godoc.org/github.com/taxjar/taxjar-go/#ListOrdersParams)) (\*[ListOrdersResponse](https://godoc.org/github.com/taxjar/taxjar-go/#ListOrdersResponse), [error](https://godoc.org/builtin/#error))**
 
 ```go
 res, _ := client.ListOrders(ListOrdersParams{
@@ -87,18 +95,22 @@ res, _ := client.ListOrders(ListOrdersParams{
 fmt.Println(res.Orders) // ListOrdersResponse.Orders
 ```
 
-### Show order transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-show-an-order-transaction), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.ShowOrder))_</small>
+### Show order transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-show-an-order-transaction))_</small>
 
 > Shows an existing order transaction created through the API.
+
+**func (client \*[Config](https://godoc.org/github.com/taxjar/taxjar-go/#Config)) [ShowOrder](https://godoc.org/github.com/taxjar/taxjar-go/#Config.ShowOrder)(transactionID [string](https://godoc.org/builtin/#string), params ...[ShowOrderParams](https://godoc.org/github.com/taxjar/taxjar-go/#ShowOrderParams)) (\*[ShowOrderResponse](https://godoc.org/github.com/taxjar/taxjar-go/#ShowOrderResponse), [error](https://godoc.org/builtin/#error))**
 
 ```go
 res, _ := client.ShowOrder("123")
 fmt.Println(res.Order) // ShowOrderResponse.Order
 ```
 
-### Create order transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#post-create-an-order-transaction), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.CreateOrder))_</small>
+### Create order transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#post-create-an-order-transaction))_</small>
 
 > Creates a new order transaction.
+
+**func (client \*[Config](https://godoc.org/github.com/taxjar/taxjar-go/#Config)) [CreateOrder](https://godoc.org/github.com/taxjar/taxjar-go/#Config.CreateOrder)(params [CreateOrderParams](https://godoc.org/github.com/taxjar/taxjar-go/#CreateOrderParams)) (\*[CreateOrderResponse](https://godoc.org/github.com/taxjar/taxjar-go/#CreateOrderResponse), [error](https://godoc.org/builtin/#error))**
 
 ```go
 res, _ := client.CreateOrder(taxjar.CreateOrderParams{
@@ -132,9 +144,11 @@ res, _ := client.CreateOrder(taxjar.CreateOrderParams{
 fmt.Println(res.Order) // CreateOrderResponse.Order
 ```
 
-### Update order transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#put-update-an-order-transaction), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.UpdateOrder))_</small>
+### Update order transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#put-update-an-order-transaction))_</small>
 
 > Updates an existing order transaction created through the API.
+
+**func (client \*[Config](https://godoc.org/github.com/taxjar/taxjar-go/#Config)) [UpdateOrder](https://godoc.org/github.com/taxjar/taxjar-go/#Config.UpdateOrder)(params [UpdateOrderParams](https://godoc.org/github.com/taxjar/taxjar-go/#UpdateOrderParams)) (\*[UpdateOrderResponse](https://godoc.org/github.com/taxjar/taxjar-go/#UpdateOrderResponse), [error](https://godoc.org/builtin/#error))**
 
 ```go
 res, _ := client.UpdateOrder(taxjar.UpdateOrderParams{
@@ -164,18 +178,22 @@ res, _ := client.UpdateOrder(taxjar.UpdateOrderParams{
 fmt.Println(res.Order) // UpdateOrderResponse.Order
 ```
 
-### Delete order transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#delete-delete-an-order-transaction), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.DeleteOrder))_</small>
+### Delete order transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#delete-delete-an-order-transaction))_</small>
 
 > Deletes an existing order transaction created through the API.
+
+**func (client \*[Config](https://godoc.org/github.com/taxjar/taxjar-go/#Config)) [DeleteOrder](https://godoc.org/github.com/taxjar/taxjar-go/#Config.DeleteOrder)(transactionID [string](https://godoc.org/builtin/#string), params ...[DeleteOrderParams](https://godoc.org/github.com/taxjar/taxjar-go/#DeleteOrderParams)) (\*[DeleteOrderResponse](https://godoc.org/github.com/taxjar/taxjar-go/#DeleteOrderResponse), [error](https://godoc.org/builtin/#error))**
 
 ```go
 res, _ := client.DeleteOrder("123")
 fmt.Println(res.Order) // DeleteOrderResponse.Order
 ```
 
-### List refund transactions <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-list-refund-transactions), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.ListRefunds))_</small>
+### List refund transactions <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-list-refund-transactions))_</small>
 
 > Lists existing refund transactions created through the API.
+
+**func (client \*[Config](https://godoc.org/github.com/taxjar/taxjar-go/#Config)) [ListRefunds](https://godoc.org/github.com/taxjar/taxjar-go/#Config.ListRefunds)(params [ListRefundsParams](https://godoc.org/github.com/taxjar/taxjar-go/#ListRefundsParams)) (\*[ListRefundsResponse](https://godoc.org/github.com/taxjar/taxjar-go/#ListRefundsResponse), [error](https://godoc.org/builtin/#error))**
 
 ```go
 res, _ := client.ListRefunds(taxjar.ListRefundsParams{
@@ -185,18 +203,22 @@ res, _ := client.ListRefunds(taxjar.ListRefundsParams{
 fmt.Println(res.Refunds) // ListRefundsResponse.Refunds
 ```
 
-### Show refund transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-show-a-refund-transaction), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.ShowRefund))_</small>
+### Show refund transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-show-a-refund-transaction))_</small>
 
 > Shows an existing refund transaction created through the API.
+
+**func (client \*[Config](https://godoc.org/github.com/taxjar/taxjar-go/#Config)) [ShowRefund](https://godoc.org/github.com/taxjar/taxjar-go/#Config.ShowRefund)(transactionID [string](https://godoc.org/builtin/#string), params ...[ShowRefundParams](https://godoc.org/github.com/taxjar/taxjar-go/#ShowRefundParams)) (\*[ShowRefundResponse](https://godoc.org/github.com/taxjar/taxjar-go/#ShowRefundResponse), [error](https://godoc.org/builtin/#error))**
 
 ```go
 res, _ := client.ShowRefund("321")
 fmt.Println(res.Refund) // ShowRefundResponse.Refund
 ```
 
-### Create refund transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#post-create-a-refund-transaction), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.CreateRefund))_</small>
+### Create refund transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#post-create-a-refund-transaction))_</small>
 
 > Creates a new refund transaction.
+
+**func (client \*[Config](https://godoc.org/github.com/taxjar/taxjar-go/#Config)) [CreateRefund](https://godoc.org/github.com/taxjar/taxjar-go/#Config.CreateRefund)(params [CreateRefundParams](https://godoc.org/github.com/taxjar/taxjar-go/#CreateRefundParams)) (\*[CreateRefundResponse](https://godoc.org/github.com/taxjar/taxjar-go/#CreateRefundResponse), [error](https://godoc.org/builtin/#error))**
 
 ```go
 res, _ := client.CreateRefund(taxjar.CreateRefundParams{
@@ -239,9 +261,11 @@ res, _ := client.CreateRefund(taxjar.CreateRefundParams{
 fmt.Println(res.Refund) // CreateRefundResponse.Refund
 ```
 
-### Update refund transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#put-update-a-refund-transaction), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.UpdateRefund))_</small>
+### Update refund transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#put-update-a-refund-transaction))_</small>
 
 > Updates an existing refund transaction created through the API.
+
+**func (client \*[Config](https://godoc.org/github.com/taxjar/taxjar-go/#Config)) [UpdateRefund](https://godoc.org/github.com/taxjar/taxjar-go/#Config.UpdateRefund)(params [UpdateRefundParams](https://godoc.org/github.com/taxjar/taxjar-go/#UpdateRefundParams)) (\*[UpdateRefundResponse](https://godoc.org/github.com/taxjar/taxjar-go/#UpdateRefundResponse), [error](https://godoc.org/builtin/#error))**
 
 ```go
 res, _ := client.UpdateRefund(taxjar.UpdateRefundParams{
@@ -253,36 +277,44 @@ res, _ := client.UpdateRefund(taxjar.UpdateRefundParams{
 fmt.Println(res.Refund) // UpdateRefundResponse.Refund
 ```
 
-### Delete refund transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#delete-delete-a-refund-transaction), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.DeleteRefund))_</small>
+### Delete refund transaction <small>_([API docs](https://developers.taxjar.com/api/reference/?go#delete-delete-a-refund-transaction))_</small>
 
 > Deletes an existing refund transaction created through the API.
+
+**func (client \*[Config](https://godoc.org/github.com/taxjar/taxjar-go/#Config)) [DeleteRefund](https://godoc.org/github.com/taxjar/taxjar-go/#Config.DeleteRefund)(transactionID [string](https://godoc.org/builtin/#string), params ...[DeleteRefundParams](https://godoc.org/github.com/taxjar/taxjar-go/#DeleteRefundParams)) (\*[DeleteRefundResponse](https://godoc.org/github.com/taxjar/taxjar-go/#DeleteRefundResponse), [error](https://godoc.org/builtin/#error))**
 
 ```go
 res, _ := client.DeleteRefund("123-refund")
 fmt.Println(res.Refund) // DeleteRefundResponse.Refund
 ```
 
-### List customers <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-list-customers), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.ListCustomers))_</small>
+### List customers <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-list-customers))_</small>
 
 > Lists existing customers created through the API.
+
+**func (client \*[Config](https://godoc.org/github.com/taxjar/taxjar-go/#Config)) [ListCustomers](https://godoc.org/github.com/taxjar/taxjar-go/#Config.ListCustomers)() (\*[ListCustomersResponse](https://godoc.org/github.com/taxjar/taxjar-go/#ListCustomersResponse), [error](https://godoc.org/builtin/#error))**
 
 ```go
 res, _ := client.ListCustomers()
 fmt.Println(res.Customers) // ListCustomersResponse.Customers
 ```
 
-### Show customer <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-show-a-customer), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.ShowCustomer))_</small>
+### Show customer <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-show-a-customer))_</small>
 
 > Shows an existing customer created through the API.
+
+**func (client \*[Config](https://godoc.org/github.com/taxjar/taxjar-go/#Config)) [ShowCustomer](https://godoc.org/github.com/taxjar/taxjar-go/#Config.ShowCustomer)(customerID [string](https://godoc.org/builtin/#string)) (\*[ShowCustomerResponse](https://godoc.org/github.com/taxjar/taxjar-go/#ShowCustomerResponse), [error](https://godoc.org/builtin/#error))**
 
 ```go
 res, _ := client.ShowCustomer("123")
 fmt.Println(res.Customer) // ShowCustomerResponse.Customer
 ```
 
-### Create customer <small>_([API docs](https://developers.taxjar.com/api/reference/?go#post-create-a-customer), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.CreateCustomer))_</small>
+### Create customer <small>_([API docs](https://developers.taxjar.com/api/reference/?go#post-create-a-customer))_</small>
 
 > Creates a new customer.
+
+**func (client \*[Config](https://godoc.org/github.com/taxjar/taxjar-go/#Config)) [CreateCustomer](https://godoc.org/github.com/taxjar/taxjar-go/#Config.CreateCustomer)(params [CreateCustomerParams](https://godoc.org/github.com/taxjar/taxjar-go/#CreateCustomerParams)) (\*[CreateCustomerResponse](https://godoc.org/github.com/taxjar/taxjar-go/#CreateCustomerResponse), [error](https://godoc.org/builtin/#error))**
 
 ```go
 res, _ := client.CreateCustomer(taxjar.CreateCustomerParams{
@@ -304,9 +336,11 @@ res, _ := client.CreateCustomer(taxjar.CreateCustomerParams{
 fmt.Println(res.Customer) // CreateCustomerResponse.Customer
 ```
 
-### Update customer <small>_([API docs](https://developers.taxjar.com/api/reference/?go#put-update-a-customer), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.UpdateCustomer))_</small>
+### Update customer <small>_([API docs](https://developers.taxjar.com/api/reference/?go#put-update-a-customer))_</small>
 
 > Updates an existing customer created through the API.
+
+**func (client \*[Config](https://godoc.org/github.com/taxjar/taxjar-go/#Config)) [UpdateCustomer](https://godoc.org/github.com/taxjar/taxjar-go/#Config.UpdateCustomer)(params [UpdateCustomerParams](https://godoc.org/github.com/taxjar/taxjar-go/#UpdateCustomerParams)) (\*[UpdateCustomerResponse](https://godoc.org/github.com/taxjar/taxjar-go/#UpdateCustomerResponse), [error](https://godoc.org/builtin/#error))**
 
 ```go
 res, _ := client.UpdateCustomer(taxjar.UpdateCustomerParams{
@@ -327,38 +361,46 @@ res, _ := client.UpdateCustomer(taxjar.UpdateCustomerParams{
 fmt.Println(res.Customer) // UpdateCustomerResponse.Customer
 ```
 
-### Delete customer <small>_([API docs](https://developers.taxjar.com/api/reference/?go#delete-delete-a-customer), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.DeleteCustomer))_</small>
+### Delete customer <small>_([API docs](https://developers.taxjar.com/api/reference/?go#delete-delete-a-customer))_</small>
 
 > Deletes an existing customer created through the API.
+
+**func (client \*[Config](https://godoc.org/github.com/taxjar/taxjar-go/#Config)) [DeleteCustomer](https://godoc.org/github.com/taxjar/taxjar-go/#Config.DeleteCustomer)(customerID [string](https://godoc.org/builtin/#string)) (\*[DeleteCustomerResponse](https://godoc.org/github.com/taxjar/taxjar-go/#DeleteCustomerResponse), [error](https://godoc.org/builtin/#error))**
 
 ```go
 res, _ := client.DeleteCustomer("123")
 fmt.Println(res.Customer) // DeleteCustomerResponse.Customer
 ```
 
-### List tax rates for a location (by zip/postal code) <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-show-tax-rates-for-a-location), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.RatesForLocation))_</small>
+### List tax rates for a location (by zip/postal code) <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-show-tax-rates-for-a-location))_</small>
 
 > Shows the sales tax rates for a given location.
 >
-> **Please note this method only returns the full combined rate for a given location.** It does not support nexus determination, sourcing based on a ship from and ship to address, shipping taxability, product exemptions, customer exemptions, or sales tax holidays. We recommend using [`TaxForOrder` to accurately calculate sales tax for an order](#calculate-sales-tax-for-an-order-smallAPI-docs-godocsmall)).
+> **Please note this method only returns the full combined rate for a given location.** It does not support nexus determination, sourcing based on a ship from and ship to address, shipping taxability, product exemptions, customer exemptions, or sales tax holidays. We recommend using [`TaxForOrder` to accurately calculate sales tax for an order](#calculate-sales-tax-for-an-order-smallAPI-docssmall)).
+
+**func (client \*[Config](https://godoc.org/github.com/taxjar/taxjar-go/#Config)) [RatesForLocation](https://godoc.org/github.com/taxjar/taxjar-go/#Config.RatesForLocation)(zip [string](https://godoc.org/builtin/#string), params ...[RatesForLocationParams](https://godoc.org/github.com/taxjar/taxjar-go/#RatesForLocationParams)) (\*[RatesForLocationResponse](https://godoc.org/github.com/taxjar/taxjar-go/#RatesForLocationResponse), [error](https://godoc.org/builtin/#error))**
 
 ```go
 res, _ := client.RatesForLocation("90002")
 fmt.Println(res.Rate) // RatesForLocationResponse.Rate
 ```
 
-### List nexus regions <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-list-nexus-regions), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.NexusRegions))_</small>
+### List nexus regions <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-list-nexus-regions))_</small>
 
 > Lists existing nexus locations for a TaxJar account.
+
+**func (client \*[Config](https://godoc.org/github.com/taxjar/taxjar-go/#Config)) [NexusRegions](https://godoc.org/github.com/taxjar/taxjar-go/#Config.NexusRegions)() (\*[NexusRegionsResponse](https://godoc.org/github.com/taxjar/taxjar-go/#NexusRegionsResponse), [error](https://godoc.org/builtin/#error))**
 
 ```go
 res, _ := client.NexusRegions()
 fmt.Println(res.Regions) // NexusRegionsResponse.Regions
 ```
 
-### Validate an address <small>_([API docs](https://developers.taxjar.com/api/reference/?go#post-validate-an-address), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.ValidateAddress))_</small>
+### Validate an address <small>_([API docs](https://developers.taxjar.com/api/reference/?go#post-validate-an-address))_</small>
 
 > Validates a customer address and returns back a collection of address matches. **Address validation requires a [TaxJar Plus](https://www.taxjar.com/plus/) subscription.**
+
+**func (client \*[Config](https://godoc.org/github.com/taxjar/taxjar-go/#Config)) [ValidateAddress](https://godoc.org/github.com/taxjar/taxjar-go/#Config.ValidateAddress)(params [ValidateAddressParams](https://godoc.org/github.com/taxjar/taxjar-go/#ValidateAddressParams)) (\*[ValidateAddressResponse](https://godoc.org/github.com/taxjar/taxjar-go/#ValidateAddressResponse), [error](https://godoc.org/builtin/#error))**
 
 ```go
 res, _ := client.ValidateAddress(taxjar.ValidateAddressParams{
@@ -371,9 +413,11 @@ res, _ := client.ValidateAddress(taxjar.ValidateAddressParams{
 fmt.Println(res.Addresses) // ValidateAddressResponse.Addresses
 ```
 
-### Validate a VAT number <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-validate-a-vat-number), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.Validate))_</small>
+### Validate a VAT number <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-validate-a-vat-number))_</small>
 
 > Validates an existing VAT identification number against [VIES](http://ec.europa.eu/taxation_customs/vies/).
+
+**func (client \*[Config](https://godoc.org/github.com/taxjar/taxjar-go/#Config)) [Validate](https://godoc.org/github.com/taxjar/taxjar-go/#Config.Validate)(params [ValidateParams](https://godoc.org/github.com/taxjar/taxjar-go/#ValidateParams)) (\*[ValidateResponse](https://godoc.org/github.com/taxjar/taxjar-go/#ValidateResponse), [error](https://godoc.org/builtin/#error))**
 
 ```go
 res, _ := client.Validate({
@@ -382,82 +426,17 @@ res, _ := client.Validate({
 fmt.Println(res.Validation) // ValidateResponse.Validation
 ```
 
-### Summarize tax rates for all regions <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-summarize-tax-rates-for-all-regions), [GoDoc](https://godoc.org/github.com/taxjar/taxjar-go/#Config.SummaryRates))_</small>
+### Summarize tax rates for all regions <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-summarize-tax-rates-for-all-regions))_</small>
 
 > Retrieve minimum and average sales tax rates by region as a backup.
 >
-> This method is useful for periodically pulling down rates to use if the SmartCalcs API is unavailable. However, it does not support nexus determination, sourcing based on a ship from and ship to address, shipping taxability, product exemptions, customer exemptions, or sales tax holidays. We recommend using [`TaxForOrder` to accurately calculate sales tax for an order](#calculate-sales-tax-for-an-order-smallAPI-docs-godocsmall)).
+> This method is useful for periodically pulling down rates to use if the SmartCalcs API is unavailable. However, it does not support nexus determination, sourcing based on a ship from and ship to address, shipping taxability, product exemptions, customer exemptions, or sales tax holidays. We recommend using [`TaxForOrder` to accurately calculate sales tax for an order](#calculate-sales-tax-for-an-order-smallAPI-docssmall)).
+
+**func (client \*[Config](https://godoc.org/github.com/taxjar/taxjar-go/#Config)) [SummaryRates](https://godoc.org/github.com/taxjar/taxjar-go/#Config.SummaryRates)() (\*[SummaryRatesResponse](https://godoc.org/github.com/taxjar/taxjar-go/#SummaryRatesResponse), [error](https://godoc.org/builtin/#error))**
 
 ```go
 res, _ := client.SummaryRates()
 fmt.Println(res.SummaryRates) // SummaryRatesResponse.SummaryRates
-```
-
-## Sandbox Environment
-
-You may also configure the client to use [TaxJar's sandbox environment](https://developers.taxjar.com/api/reference/?go#sandbox-environment). **The sandbox environment requires a [TaxJar Plus](https://www.taxjar.com/plus/) subscription.**
-
-```go
-import "github.com/taxjar/taxjar-go"
-
-// Instantiate client and set `APIURL`:
-client := taxjar.NewClient(taxjar.Config{
-	APIKey: os.Getenv("TAXJAR_SANDBOX_API_KEY"),
-	APIURL: taxjar.SandboxAPIURL,
-})
-
-// or
-client := taxjar.NewClient()
-client.APIKey = os.Getenv("TAXJAR_SANDBOX_API_KEY")
-client.APIURL = taxjar.SandboxAPIURL
-```
-
-## Optional Configuration
-
-To add additional headers to each request, assign them to `client.Headers`. For example, to test specific [error response codes](https://developers.taxjar.com/api/reference/?go#errors), pass the custom `X-TJ-Expected-Response` header:
-
-```go
-client.Headers = map[string]interface{}{
-	"X-TJ-Expected-Response": 422,
-}
-```
-
-If you'd like to customize the timeout for requests, pass a time value to `client.Timeout`.
-
-```go
-client.Timeout = 45 * time.Second // taxjar.DefaultTimeout: 30 * time.Second
-```
-
-To set more detailed timeouts, you may also pass a custom transport to `client.Transport`.
-
-```go
-client.Transport = &http.Transport{
-	DialContext: (&net.Dialer{
-		Timeout:   20 * Time.Second,
-		KeepAlive: 20 * Time.Second,
-	}).DialContext,
-	TLSHandshakeTimeout:   20 * time.Second,
-	ExpectContinueTimeout: 8 * time.Second,
-	ResponseHeaderTimeout: 6 * time.Second,
-}
-
-/* taxjar.DefaultTransport:
-&http.Transport{
-	DialContext: (&net.Dialer{
-		Timeout:   10 * Time.Second,
-		KeepAlive: 10 * Time.Second,
-	}).DialContext,
-	TLSHandshakeTimeout:   10 * time.Second,
-	ExpectContinueTimeout: 4 * time.Second,
-	ResponseHeaderTimeout: 3 * time.Second,
-}
-*/
-```
-
-For even more customization, pass a custom `*http.Client` to `client.HTTPClient`.
-
-```go
-client.HTTPClient = &http.Client{/* your configuration here */}
 ```
 
 ## Error Handling
@@ -510,9 +489,76 @@ if err := err.(*taxjar.Error); err != nil {
 }
 ```
 
+## Optional Configuration
+
+To add additional headers to each request, assign them to `client.Headers`. For example, to test specific [error response codes](https://developers.taxjar.com/api/reference/?go#errors), pass the custom `X-TJ-Expected-Response` header:
+
+```go
+client.Headers = map[string]interface{}{
+	"X-TJ-Expected-Response": 422,
+}
+```
+
+If you'd like to customize the timeout for requests, pass a time value to `client.Timeout`.
+
+```go
+client.Timeout = 45 * time.Second // taxjar.DefaultTimeout: 30 * time.Second
+```
+
+To set more detailed timeouts, you may also pass a custom transport to `client.Transport`.
+
+```go
+client.Transport = &http.Transport{
+	DialContext: (&net.Dialer{
+		Timeout:   20 * Time.Second,
+		KeepAlive: 20 * Time.Second,
+	}).DialContext,
+	TLSHandshakeTimeout:   20 * time.Second,
+	ExpectContinueTimeout: 8 * time.Second,
+	ResponseHeaderTimeout: 6 * time.Second,
+}
+
+/* taxjar.DefaultTransport:
+&http.Transport{
+	DialContext: (&net.Dialer{
+		Timeout:   10 * Time.Second,
+		KeepAlive: 10 * Time.Second,
+	}).DialContext,
+	TLSHandshakeTimeout:   10 * time.Second,
+	ExpectContinueTimeout: 4 * time.Second,
+	ResponseHeaderTimeout: 3 * time.Second,
+}
+*/
+```
+
+For even more customization, pass a custom `*http.Client` to `client.HTTPClient`.
+
+```go
+client.HTTPClient = &http.Client{/* your configuration here */}
+```
+
+## Sandbox Environment
+
+You may also configure the client to use [TaxJar's sandbox environment](https://developers.taxjar.com/api/reference/?go#sandbox-environment). **The sandbox environment requires a [TaxJar Plus](https://www.taxjar.com/plus/) subscription.**
+
+```go
+import "github.com/taxjar/taxjar-go"
+
+// Instantiate client and set `APIURL`:
+client := taxjar.NewClient(taxjar.Config{
+	APIKey: os.Getenv("TAXJAR_SANDBOX_API_KEY"),
+	APIURL: taxjar.SandboxAPIURL,
+})
+
+// or
+client := taxjar.NewClient()
+client.APIKey = os.Getenv("TAXJAR_SANDBOX_API_KEY")
+client.APIURL = taxjar.SandboxAPIURL
+```
+
 ## Testing
 
-```
+```bash
 make test
 ```
 
