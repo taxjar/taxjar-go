@@ -43,9 +43,9 @@ type Order struct {
 	ToState                string          `json:"to_state"`
 	ToCity                 string          `json:"to_city"`
 	ToStreet               string          `json:"to_street"`
-	Amount                 float64         `json:"amount"`
-	Shipping               float64         `json:"shipping"`
-	SalesTax               float64         `json:"sales_tax"`
+	Amount                 float64         `json:"amount,string"`
+	Shipping               float64         `json:"shipping,string"`
+	SalesTax               float64         `json:"sales_tax,string"`
 	LineItems              []OrderLineItem `json:"line_items"`
 }
 

@@ -19,9 +19,9 @@ type OrderLineItem struct {
 	ProductIdentifier string  `json:"product_identifier,omitempty"`
 	Description       string  `json:"description,omitempty"`
 	ProductTaxCode    string  `json:"product_tax_code,omitempty"`
-	UnitPrice         float64 `json:"unit_price,omitempty"`
-	Discount          float64 `json:"discount,omitempty"`
-	SalesTax          float64 `json:"sales_tax,omitempty"`
+	UnitPrice         float64 `json:"unit_price,omitempty,string"`
+	Discount          float64 `json:"discount,omitempty,string"`
+	SalesTax          float64 `json:"sales_tax,omitempty,string"`
 }
 
 // ShowOrder - TODO (document this)
