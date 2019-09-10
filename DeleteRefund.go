@@ -9,11 +9,7 @@ type DeleteRefundParams struct {
 
 // DeleteRefundResponse - TODO (document this)
 type DeleteRefundResponse struct {
-	Refund struct {
-		TransactionID string `json:"transaction_id"`
-		UserID        int    `json:"user_id"`
-		Provider      string `json:"provider"`
-	} `json:"refund"`
+	Refund Refund `json:"refund"`
 }
 
 // DeleteRefund - TODO (document this)

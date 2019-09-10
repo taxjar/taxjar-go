@@ -56,11 +56,28 @@ type Shipping struct {
 	StateSalesTaxRate     float64 `json:"state_sales_tax_rate"`
 	StateAmount           float64 `json:"state_amount"`
 	CountyTaxableAmount   float64 `json:"county_taxable_amount"`
+	CountyTaxRate         float64 `json:"county_tax_rate"`
+	CountyAmount          float64 `json:"county_amount"`
+	CityTaxableAmount     float64 `json:"city_taxable_amount"`
 	CityTaxRate           float64 `json:"city_tax_rate"`
 	CityAmount            float64 `json:"city_amount"`
 	SpecialTaxableAmount  float64 `json:"special_taxable_amount"`
 	SpecialTaxRate        float64 `json:"special_tax_rate"`
 	SpecialDistrictAmount float64 `json:"special_district_amount"`
+	// Canada
+	GSTTaxableAmount float64 `json:"gst_taxable_amount"`
+	GSTTaxRate       float64 `json:"gst_tax_rate"`
+	GST              float64 `json:"gst"`
+	PSTTaxableAmount float64 `json:"pst_taxable_amount"`
+	PSTTaxRate       float64 `json:"pst_tax_rate"`
+	PST              float64 `json:"pst"`
+	QSTTaxableAmount float64 `json:"qst_taxable_amount"`
+	QSTTaxRate       float64 `json:"qst_tax_rate"`
+	QST              float64 `json:"qst"`
+	// Other International Attributes
+	CountryTaxableAmount  float64 `json:"country_taxable_amount"`
+	CountryTaxRate        float64 `json:"country_tax_rate"`
+	CountryTaxCollectable float64 `json:"country_tax_collectable"`
 }
 
 // LineItemBreakdown - TODO (document this)
@@ -73,11 +90,28 @@ type LineItemBreakdown struct {
 	StateSalesTaxRate            float64 `json:"state_sales_tax_rate"`
 	StateAmount                  float64 `json:"state_amount"`
 	CountyTaxableAmount          float64 `json:"county_taxable_amount"`
+	CountyTaxRate                float64 `json:"county_tax_rate"`
+	CountyAmount                 float64 `json:"county_amount"`
+	CityTaxableAmount            float64 `json:"city_taxable_amount"`
 	CityTaxRate                  float64 `json:"city_tax_rate"`
 	CityAmount                   float64 `json:"city_amount"`
 	SpecialDistrictTaxableAmount float64 `json:"special_district_taxable_amount"`
 	SpecialTaxRate               float64 `json:"special_tax_rate"`
 	SpecialDistrictAmount        float64 `json:"special_district_amount"`
+	// Canada
+	GSTTaxableAmount float64 `json:"gst_taxable_amount"`
+	GSTTaxRate       float64 `json:"gst_tax_rate"`
+	GST              float64 `json:"gst"`
+	PSTTaxableAmount float64 `json:"pst_taxable_amount"`
+	PSTTaxRate       float64 `json:"pst_tax_rate"`
+	PST              float64 `json:"pst"`
+	QSTTaxableAmount float64 `json:"qst_taxable_amount"`
+	QSTTaxRate       float64 `json:"qst_tax_rate"`
+	QST              float64 `json:"qst"`
+	// Other International Attributes
+	CountryTaxableAmount  float64 `json:"country_taxable_amount"`
+	CountryTaxRate        float64 `json:"country_tax_rate"`
+	CountryTaxCollectable float64 `json:"country_tax_collectable"`
 }
 
 // Breakdown - TODO (document this)
@@ -109,25 +143,28 @@ type Breakdown struct {
 	QSTTaxableAmount float64 `json:"qst_taxable_amount"`
 	QSTTaxRate       float64 `json:"qst_tax_rate"`
 	QST              float64 `json:"qst"`
-	// Other International Breakdown Attributes
+	// Other International Attributes
 	CountryTaxableAmount  float64 `json:"country_taxable_amount"`
 	CountryTaxRate        float64 `json:"country_tax_rate"`
 	CountryTaxCollectable float64 `json:"country_tax_collectable"`
 }
 
+// Tax - TODO (document this)
+type Tax struct {
+	OrderTotalAmount float64       `json:"order_total_amount"`
+	Shipping         float64       `json:"shipping"`
+	TaxableAmount    float64       `json:"taxable_amount"`
+	AmountToCollect  float64       `json:"amount_to_collect"`
+	Rate             float64       `json:"rate"`
+	HasNexus         bool          `json:"has_nexus"`
+	FreightTaxable   bool          `json:"freight_taxable"`
+	TaxSource        string        `json:"tax_source"`
+	ExemptionType    string        `json:"exemption_type"`
+	Jurisdictions    Jurisdictions `json:"jurisdictions"`
+	Breakdown        Breakdown     `json:"breakdown"`
+}
+
 // TaxForOrderResponse - TODO (document this)
 type TaxForOrderResponse struct {
-	Tax struct {
-		OrderTotalAmount float64       `json:"order_total_amount"`
-		Shipping         float64       `json:"shipping"`
-		TaxableAmount    float64       `json:"taxable_amount"`
-		AmountToCollect  float64       `json:"amount_to_collect"`
-		Rate             float64       `json:"rate"`
-		HasNexus         bool          `json:"has_nexus"`
-		FreightTaxable   bool          `json:"freight_taxable"`
-		TaxSource        string        `json:"tax_source"`
-		ExemptionType    string        `json:"exemption_type"`
-		Jurisdictions    Jurisdictions `json:"jurisdictions"`
-		Breakdown        Breakdown     `json:"breakdown"`
-	} `json:"tax"`
+	Tax Tax `json:"tax"`
 }

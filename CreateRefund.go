@@ -28,7 +28,7 @@ type CreateRefundParams struct {
 
 // CreateRefundResponse - TODO (document this)
 type CreateRefundResponse struct {
-	Refund Order `json:"refund"`
+	Refund Refund `json:"refund"`
 }
 
 // CreateRefund - TODO (document this)

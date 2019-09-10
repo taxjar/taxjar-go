@@ -10,28 +10,31 @@ type RatesForLocationParams struct {
 	Street  string `url:"street,omitempty"`
 }
 
+// Rate - TODO (document this)
+type Rate struct {
+	Zip                   string `json:"zip"`
+	Country               string `json:"country"`
+	Name                  string `json:"name"`
+	StandardRate          string `json:"standard_rate"`
+	ReducedRate           string `json:"reduced_rate"`
+	SuperReducedRate      string `json:"super_reduced_rate"`
+	ParkingRate           string `json:"parking_rate"`
+	DistanceSaleThreshold string `json:"distance_sale_threshold"`
+	CountryRate           string `json:"country_rate"`
+	State                 string `json:"state"`
+	StateRate             string `json:"state_rate"`
+	County                string `json:"county"`
+	CountyRate            string `json:"county_rate"`
+	City                  string `json:"city"`
+	CityRate              string `json:"city_rate"`
+	CombinedDistrictRate  string `json:"combined_district_rate"`
+	CombinedRate          string `json:"combined_rate"`
+	FreightTaxable        bool   `json:"freight_taxable"`
+}
+
 // RatesForLocationResponse - TODO (document this)
 type RatesForLocationResponse struct {
-	Rate struct {
-		Zip                   string  `json:"zip"`
-		Country               string  `json:"country"`
-		Name                  string  `json:"name"`
-		StandardRate          float64 `json:"standard_rate"`
-		ReducedRate           float64 `json:"reduced_rate"`
-		SuperReducedRate      float64 `json:"super_reduced_rate"`
-		ParkingRate           float64 `json:"parking_rate"`
-		DistanceSaleThreshold float64 `json:"distance_sale_threshold"`
-		CountryRate           float64 `json:"country_rate"`
-		State                 string  `json:"state"`
-		StateRate             float64 `json:"state_rate"`
-		County                string  `json:"county"`
-		CountyRate            float64 `json:"county_rate"`
-		City                  string  `json:"city"`
-		CityRate              float64 `json:"city_rate"`
-		CombinedDistrictRate  float64 `json:"combined_district_rate"`
-		CombinedRate          float64 `json:"combined_rate"`
-		FreightTaxable        bool    `json:"freight_taxable"`
-	} `json:"rate"`
+	Rate Rate `json:"rate"`
 }
 
 // RatesForLocation - TODO (document this)

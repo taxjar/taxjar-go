@@ -17,14 +17,17 @@ type VIESResponse struct {
 	Address     string `json:"address"`
 }
 
+// Validation - TODO (document this)
+type Validation struct {
+	Valid         bool         `json:"valid"`
+	Exists        bool         `json:"exists"`
+	VIESAvailable bool         `json:"vies_available"`
+	VIESResponse  VIESResponse `json:"vies_response"`
+}
+
 // ValidateResponse - TODO (document this)
 type ValidateResponse struct {
-	Validation struct {
-		Valid         bool         `json:"valid"`
-		Exists        bool         `json:"exists"`
-		VIESAvailable bool         `json:"vies_available"`
-		VIESResponse  VIESResponse `json:"vies_response"`
-	} `json:"validation"`
+	Validation Validation `json:"validation"`
 }
 
 // Validate - TODO (document this)

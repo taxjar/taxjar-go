@@ -27,25 +27,26 @@ type CreateOrderParams struct {
 
 // Order - TODO (document this)
 type Order struct {
-	TransactionID   string          `json:"transaction_id"`
-	UserID          int             `json:"user_id"`
-	TransactionDate string          `json:"transaction_date"`
-	Provider        string          `json:"provider"`
-	ExemptionType   string          `json:"exemption_type,omitempty"`
-	FromCountry     string          `json:"from_country"`
-	FromZip         string          `json:"from_zip"`
-	FromState       string          `json:"from_state"`
-	FromCity        string          `json:"from_city"`
-	FromStreet      string          `json:"from_street"`
-	ToCountry       string          `json:"to_country"`
-	ToZip           string          `json:"to_zip"`
-	ToState         string          `json:"to_state"`
-	ToCity          string          `json:"to_city"`
-	ToStreet        string          `json:"to_street"`
-	Amount          float64         `json:"amount"`
-	Shipping        float64         `json:"shipping"`
-	SalesTax        float64         `json:"sales_tax"`
-	LineItems       []OrderLineItem `json:"line_items"`
+	TransactionID          string          `json:"transaction_id"`
+	UserID                 int             `json:"user_id"`
+	TransactionDate        string          `json:"transaction_date"`
+	TransactionReferenceID string          `json:"transaction_reference_id"`
+	Provider               string          `json:"provider"`
+	ExemptionType          string          `json:"exemption_type,omitempty"`
+	FromCountry            string          `json:"from_country"`
+	FromZip                string          `json:"from_zip"`
+	FromState              string          `json:"from_state"`
+	FromCity               string          `json:"from_city"`
+	FromStreet             string          `json:"from_street"`
+	ToCountry              string          `json:"to_country"`
+	ToZip                  string          `json:"to_zip"`
+	ToState                string          `json:"to_state"`
+	ToCity                 string          `json:"to_city"`
+	ToStreet               string          `json:"to_street"`
+	Amount                 float64         `json:"amount"`
+	Shipping               float64         `json:"shipping"`
+	SalesTax               float64         `json:"sales_tax"`
+	LineItems              []OrderLineItem `json:"line_items"`
 }
 
 // CreateOrderResponse - TODO (document this)

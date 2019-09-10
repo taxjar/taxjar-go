@@ -7,9 +7,14 @@ type ShowRefundParams struct {
 	Provider string `url:"provider,omitempty"`
 }
 
+// Refund - TODO (document this)
+type Refund struct {
+	Order
+}
+
 // ShowRefundResponse - TODO (document this)
 type ShowRefundResponse struct {
-	Refund Order `json:"refund"`
+	Refund Refund `json:"refund"`
 }
 
 // RefundLineItem - TODO (document this)

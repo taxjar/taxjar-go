@@ -9,11 +9,7 @@ type DeleteOrderParams struct {
 
 // DeleteOrderResponse - TODO (document this)
 type DeleteOrderResponse struct {
-	Order struct {
-		TransactionID string `json:"transaction_id"`
-		UserID        int    `json:"user_id"`
-		Provider      string `json:"provider"`
-	} `json:"order"`
+	Order Order `json:"order"`
 }
 
 // DeleteOrder - TODO (document this)

@@ -27,7 +27,7 @@ type UpdateRefundParams struct {
 
 // UpdateRefundResponse - TODO (document this)
 type UpdateRefundResponse struct {
-	Refund Order `json:"refund"`
+	Refund Refund `json:"refund"`
 }
 
 // UpdateRefund - TODO (document this)

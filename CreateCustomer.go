@@ -21,19 +21,22 @@ type CreateCustomerParams struct {
 	Street        string         `json:"street,omitempty"`
 }
 
+// Customer - TODO (document this)
+type Customer struct {
+	CustomerID    string         `json:"customer_id"`
+	ExemptionType string         `json:"exemption_type"`
+	ExemptRegions []ExemptRegion `json:"exempt_regions"`
+	Name          string         `json:"name"`
+	Country       string         `json:"country"`
+	State         string         `json:"state"`
+	Zip           string         `json:"zip"`
+	City          string         `json:"city"`
+	Street        string         `json:"street"`
+}
+
 // CreateCustomerResponse - TODO (document this)
 type CreateCustomerResponse struct {
-	Customer struct {
-		CustomerID    string         `json:"customer_id"`
-		ExemptionType string         `json:"exemption_type"`
-		ExemptRegions []ExemptRegion `json:"exempt_regions"`
-		Name          string         `json:"name"`
-		Country       string         `json:"country"`
-		State         string         `json:"state"`
-		Zip           string         `json:"zip"`
-		City          string         `json:"city"`
-		Street        string         `json:"street"`
-	} `json:"customer"`
+	Customer Customer `json:"customer"`
 }
 
 // CreateCustomer - TODO (document this)
