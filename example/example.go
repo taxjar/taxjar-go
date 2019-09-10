@@ -19,7 +19,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("\nCategories", res1.Categories)
+	fmt.Printf("\nCategories %+v", res1.Categories)
 
 	res2, err := client.TaxForOrder(taxjar.TaxForOrderParams{
 		FromCountry: "US",
@@ -47,7 +47,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("\nTaxForOrder", res2.Tax)
+	fmt.Printf("\n\nTaxForOrder %+v", res2.Tax)
 
 	res3, err := client.CreateOrder(taxjar.CreateOrderParams{
 		TransactionID:   "13579-246810",
@@ -76,7 +76,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("\nCreateOrder", res3.Order)
+	fmt.Printf("\n\nCreateOrder %+v", res3.Order)
 
 	res4, err := client.ListOrders(taxjar.ListOrdersParams{
 		FromTransactionDate: "2015/09/08",
@@ -85,7 +85,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("\nListOrders", res4.Orders)
+	fmt.Printf("\n\nListOrders %+v", res4.Orders)
 
 	res5, err := client.UpdateOrder(taxjar.UpdateOrderParams{
 		TransactionID: "13579-246810",
@@ -117,19 +117,19 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("\nUpdateOrder", res5.Order)
+	fmt.Printf("\n\nUpdateOrder %+v", res5.Order)
 
 	res6, err := client.ShowOrder("13579-246810")
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("\nShowOrder", res6.Order)
+	fmt.Printf("\n\nShowOrder %+v", res6.Order)
 
 	res7, err := client.DeleteOrder("13579-246810")
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("\nDeleteOrder", res7.Order)
+	fmt.Printf("\n\nDeleteOrder %+v", res7.Order)
 
 	res8, err := client.CreateRefund(taxjar.CreateRefundParams{
 		TransactionID:          "13579-246810-refund",
@@ -168,7 +168,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("\nCreateRefund", res8.Refund)
+	fmt.Printf("\n\nCreateRefund %+v", res8.Refund)
 
 	res9, err := client.ListRefunds(taxjar.ListRefundsParams{
 		FromTransactionDate: "2015/09/08",
@@ -177,7 +177,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("\nListRefunds", res9.Refunds)
+	fmt.Printf("\n\nListRefunds %+v", res9.Refunds)
 
 	res10, err := client.UpdateRefund(taxjar.UpdateRefundParams{
 		TransactionID:          "13579-246810-refund",
@@ -187,19 +187,19 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("\nUpdateRefund", res10.Refund)
+	fmt.Printf("\n\nUpdateRefund %+v", res10.Refund)
 
 	res11, err := client.ShowRefund("13579-246810-refund")
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("\nShowRefund", res11.Refund)
+	fmt.Printf("\n\nShowRefund %+v", res11.Refund)
 
 	res12, err := client.DeleteRefund("13579-246810-refund")
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("\nDeleteRefund", res12.Refund)
+	fmt.Printf("\n\nDeleteRefund %+v", res12.Refund)
 
 	res13, err := client.CreateCustomer(taxjar.CreateCustomerParams{
 		CustomerID:    "123",
@@ -220,13 +220,13 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("\nCreateCustomer", res13.Customer)
+	fmt.Printf("\n\nCreateCustomer %+v", res13.Customer)
 
 	res14, err := client.ListCustomers()
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("\nListCustomers", res14.Customers)
+	fmt.Printf("\n\nListCustomers %+v", res14.Customers)
 
 	res15, err := client.UpdateCustomer(taxjar.UpdateCustomerParams{
 		CustomerID:    "123",
@@ -236,19 +236,19 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("\nUpdateCustomer", res15.Customer)
+	fmt.Printf("\n\nUpdateCustomer %+v", res15.Customer)
 
 	res16, err := client.ShowCustomer("123")
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("\nShowCustomer", res16.Customer)
+	fmt.Printf("\n\nShowCustomer %+v", res16.Customer)
 
 	res17, err := client.DeleteCustomer("123")
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("\nDeleteCustomer", res17.Customer)
+	fmt.Printf("\n\nDeleteCustomer %+v", res17.Customer)
 
 	res18, err := client.RatesForLocation("94043", taxjar.RatesForLocationParams{
 		Country: "US",
@@ -259,13 +259,13 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("\nRatesForLocation", res18.Rate)
+	fmt.Printf("\n\nRatesForLocation %+v", res18.Rate)
 
 	res19, err := client.NexusRegions()
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("\nNexusRegions", res19.Regions)
+	fmt.Printf("\n\nNexusRegions %+v", res19.Regions)
 
 	res20, err := client.ValidateAddress(taxjar.ValidateAddressParams{
 		Country: "US",
@@ -275,13 +275,13 @@ func main() {
 		Street:  "3301 South Greenfield Rd",
 	})
 	if err := err.(*taxjar.Error); err != nil {
-		fmt.Println(err)
+		fmt.Println("\n\nValidateAddress", err)
 		// fmt.Println(err.Status)
 		// fmt.Println(err.Err)
 		// fmt.Println(err.Detail)
 		// fmt.Printf("%+v", errors.Wrap(err, ""))
 	} else {
-		fmt.Println("\nValidateAddress", res20.Addresses)
+		fmt.Printf("\n\nValidateAddress %+v", res20.Addresses)
 	}
 
 	res21, err := client.Validate(taxjar.ValidateParams{
@@ -290,11 +290,11 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("\nValidate", res21.Validation)
+	fmt.Printf("\nValidate %+v", res21.Validation)
 
 	res22, err := client.SummaryRates()
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("\nSummaryRates", res22.SummaryRates)
+	fmt.Printf("\n\nSummaryRates %+v", res22.SummaryRates)
 }
