@@ -1,0 +1,25 @@
+language: go
+
+env:
+  - GO111MODULE=on
+
+install:
+  - go mod vendor
+
+matrix:
+  include:
+    - go: tip
+      script:
+        - go get -u golang.org/x/lint/golint
+        - make lint
+        - make vet
+        - make test
+    - go: 1.13.x
+      script:
+        - make test
+    - go: 1.12.x
+      script:
+        - make test
+    - go: 1.11.x
+      script:
+        - make test
