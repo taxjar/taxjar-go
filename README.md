@@ -1,4 +1,4 @@
-# TaxJar Sales Tax API for Go [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/taxjar/taxjar-go?style=flat-square)](CHANGELOG.md) [![GoDoc](https://img.shields.io/badge/godoc-docs-blue.svg?style=flat-square)](https://godoc.org/github.com/taxjar/taxjar-go) [![Build Status](http://img.shields.io/travis/taxjar/taxjar-go.svg?style=flat-square)](https://travis-ci.org/taxjar/taxjar-go)
+# TaxJar Sales Tax API for Go ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/taxjar/taxjar-go?style=flat-square&label=release&sort=semver) [![GoDoc](https://img.shields.io/badge/godoc-docs-blue.svg?style=flat-square&color=darkturquoise)](https://godoc.org/github.com/taxjar/taxjar-go) [![Build Status](http://img.shields.io/travis/taxjar/taxjar-go.svg?style=flat-square)](https://travis-ci.org/taxjar/taxjar-go)
 
 Official Go client for Sales Tax API v2. For the API documentation, please visit [https://developers.taxjar.com/api/reference/](https://developers.taxjar.com/api/reference/?go).
 
