@@ -2,7 +2,7 @@ package taxjar
 
 import "encoding/json"
 
-// SummaryRate - TODO (document this)
+// SummaryRate is the structure for a location's summarized (minimum and average) backup rates returned within `SummaryRatesResponse.SummaryRates`․
 type SummaryRate struct {
 	CountryCode string `json:"country_code"`
 	Country     string `json:"country"`
@@ -18,12 +18,16 @@ type SummaryRate struct {
 	} `json:"average_rate"`
 }
 
-// SummaryRatesResponse - TODO (document this)
+// SummaryRatesResponse is the structure returned from `SummaryRates`․
+//
+// Access the summarized (minimum and average) backup rates with `SummaryRatesResponse.SummaryRates`.
 type SummaryRatesResponse struct {
 	SummaryRates []SummaryRate `json:"summary_rates"`
 }
 
-// SummaryRates - TODO (document this)
+// SummaryRates retrieves minimum and average sales tax rates by region, which you can use as a backup․
+//
+// See https://developers.taxjar.com/api/reference/?go#get-summarize-tax-rates-for-all-regions for more details․
 func (client *Config) SummaryRates() (*SummaryRatesResponse, error) {
 	res, err := client.get("summary_rates")
 	if err != nil {

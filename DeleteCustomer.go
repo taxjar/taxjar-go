@@ -2,12 +2,16 @@ package taxjar
 
 import "encoding/json"
 
-// DeleteCustomerResponse - TODO (document this)
+// DeleteCustomerResponse is the structure returned from `DeleteCustomer`․
+//
+// Access the deleted customer with `DeleteCustomerResponse.Customer`․
 type DeleteCustomerResponse struct {
 	CreateCustomerResponse
 }
 
-// DeleteCustomer - TODO (document this)
+// DeleteCustomer deletes a customer in TaxJar․
+//
+// See https://developers.taxjar.com/api/reference/?go#delete-delete-a-customer for more details․
 func (client *Config) DeleteCustomer(customerID string) (*DeleteCustomerResponse, error) {
 	res, err := client.delete("customers/" + customerID)
 	if err != nil {

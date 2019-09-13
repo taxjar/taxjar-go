@@ -2,7 +2,7 @@ package taxjar
 
 import "encoding/json"
 
-// RatesForLocationParams - TODO (document this)
+// RatesForLocationParams should be passed to `RatesForLocation` to show the sales tax rates for a given location․
 type RatesForLocationParams struct {
 	Country string `url:"country,omitempty"`
 	State   string `url:"state,omitempty"`
@@ -10,7 +10,7 @@ type RatesForLocationParams struct {
 	Street  string `url:"street,omitempty"`
 }
 
-// Rate - TODO (document this)
+// Rate is the structure for a given location's sales tax rates․
 type Rate struct {
 	Zip                   string  `json:"zip"`
 	Country               string  `json:"country"`
@@ -32,12 +32,20 @@ type Rate struct {
 	FreightTaxable        bool    `json:"freight_taxable"`
 }
 
-// RatesForLocationResponse - TODO (document this)
+// RatesForLocationResponse is the structure returned from `RatesForLocation`․
+//
+// Access the location's rates with `RatesForLocationResponse.Rate`․
 type RatesForLocationResponse struct {
 	Rate Rate `json:"rate"`
 }
 
-// RatesForLocation - TODO (document this)
+// RatesForLocation shows the sales tax rates for a given location․
+//
+// Please note `RatesForLocation` only returns the full combined rate for a given location․ It does not support nexus determination, sourcing based on a ship from and ship to address, shipping taxability, product exemptions, customer exemptions, or sales tax holidays․
+//
+// We recommend using `TaxForOrder` to accurately calculate sales tax for an order․
+//
+// See https://developers.taxjar.com/api/reference/?go#get-show-tax-rates-for-a-location for more details.
 func (client *Config) RatesForLocation(zip string, params ...RatesForLocationParams) (*RatesForLocationResponse, error) {
 	res, err := client.get("rates/"+zip, params)
 	if err != nil {

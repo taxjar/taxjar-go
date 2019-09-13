@@ -2,7 +2,7 @@ package taxjar
 
 import "encoding/json"
 
-// UpdateOrderParams - TODO (document this)
+// UpdateOrderParams should be passed to `UpdateOrder` to update an existing order․
 type UpdateOrderParams struct {
 	TransactionID   string          `json:"transaction_id,omitempty"`
 	TransactionDate string          `json:"transaction_date,omitempty"`
@@ -24,12 +24,16 @@ type UpdateOrderParams struct {
 	LineItems       []OrderLineItem `json:"line_items,omitempty"`
 }
 
-// UpdateOrderResponse - TODO (document this)
+// UpdateOrderResponse is the structure returned from `UpdateOrder`․
+//
+// Access the updated order with `UpdateOrderResponse.Order`․
 type UpdateOrderResponse struct {
 	Order Order `json:"order"`
 }
 
-// UpdateOrder - TODO (document this)
+// UpdateOrder updates an existing order in TaxJar․
+//
+// See https://developers.taxjar.com/api/reference/?go#put-update-an-order-transaction for more details․
 func (client *Config) UpdateOrder(params UpdateOrderParams) (*UpdateOrderResponse, error) {
 	res, err := client.put("transactions/orders/"+params.TransactionID, params)
 	if err != nil {

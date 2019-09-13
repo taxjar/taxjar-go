@@ -2,13 +2,13 @@ package taxjar
 
 import "encoding/json"
 
-// ExemptRegion - TODO (document this)
+// ExemptRegion is the structure for a customer exempt region passed within `CreateCustomerParams.ExemptRegions` and returned in `CreateCustomerResponse.Customer.ExemptRegions`․
 type ExemptRegion struct {
 	Country string `json:"country,omitempty"`
 	State   string `json:"state,omitempty"`
 }
 
-// CreateCustomerParams - TODO (document this)
+// CreateCustomerParams should be passed to `CreateCustomer` to create a customer․
 type CreateCustomerParams struct {
 	CustomerID    string         `json:"customer_id,omitempty"`
 	ExemptionType string         `json:"exemption_type,omitempty"`
@@ -21,7 +21,7 @@ type CreateCustomerParams struct {
 	Street        string         `json:"street,omitempty"`
 }
 
-// Customer - TODO (document this)
+// Customer is the structure for a customer returned within `CreateCustomerResponse`, `UpdateCustomerResponse`, `ShowCustomerResponse`, and `DeleteCustomerResponse`․
 type Customer struct {
 	CustomerID    string         `json:"customer_id"`
 	ExemptionType string         `json:"exemption_type"`
@@ -34,12 +34,16 @@ type Customer struct {
 	Street        string         `json:"street"`
 }
 
-// CreateCustomerResponse - TODO (document this)
+// CreateCustomerResponse is the structure returned from `CreateCustomer`․
+//
+// Access the created customer with `CreateCustomerResponse.Customer`․
 type CreateCustomerResponse struct {
 	Customer Customer `json:"customer"`
 }
 
-// CreateCustomer - TODO (document this)
+// CreateCustomer creates a new customer in TaxJar․ Use the newly created customer's `CustomerID` when calculating tax with `TaxForOrder` or when creating or updating transactions․
+//
+// See https://developers.taxjar.com/api/reference/?go#post-create-a-customer for more details․
 func (client *Config) CreateCustomer(params CreateCustomerParams) (*CreateCustomerResponse, error) {
 	res, err := client.post("customers", params)
 	if err != nil {

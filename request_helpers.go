@@ -12,20 +12,14 @@ import (
 	"github.com/google/go-querystring/query"
 )
 
-// DefaultTimeout - 30 * time.Second
+// DefaultTimeout for requests is `30 * time.Second`․
+//
+// Override this by setting `Config.Timeout` to a different time value․
 const DefaultTimeout = 30 * time.Second
 
-/*
-DefaultTransport - &http.Transport{
-	DialContext: (&net.Dialer{
-		Timeout:   10 * time.Second,
-		KeepAlive: 10 * time.Second,
-	}).DialContext,
-	TLSHandshakeTimeout:   10 * time.Second,
-	ExpectContinueTimeout: 4 * time.Second,
-	ResponseHeaderTimeout: 3 * time.Second,
-}
-*/
+// DefaultTransport is the default `*http.Transport` for requests․
+//
+// Override this by setting `Config.Transport` to a different `*http.Transport` (from net/http package - https://godoc.org/net/http#Transport)․
 var DefaultTransport = &http.Transport{
 	DialContext: (&net.Dialer{
 		Timeout:   10 * time.Second,

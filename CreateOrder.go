@@ -2,7 +2,7 @@ package taxjar
 
 import "encoding/json"
 
-// CreateOrderParams - TODO (document this)
+// CreateOrderParams should be passed to `CreateOrder` to create an order․
 type CreateOrderParams struct {
 	TransactionID   string          `json:"transaction_id,omitempty"`
 	TransactionDate string          `json:"transaction_date,omitempty"`
@@ -25,7 +25,7 @@ type CreateOrderParams struct {
 	LineItems       []OrderLineItem `json:"line_items,omitempty"`
 }
 
-// Order - TODO (document this)
+// Order is the structure for an order returned within `CreateOrderResponse`, `ShowOrderResponse`, `UpdateOrderResponse`, and `DeleteOrderResponse`․
 type Order struct {
 	TransactionID          string          `json:"transaction_id"`
 	UserID                 int             `json:"user_id"`
@@ -49,12 +49,16 @@ type Order struct {
 	LineItems              []OrderLineItem `json:"line_items"`
 }
 
-// CreateOrderResponse - TODO (document this)
+// CreateOrderResponse is the structure returned from `CreateOrder`․
+//
+// Access the created order with `CreateOrderResponse.Order`․
 type CreateOrderResponse struct {
 	Order Order `json:"order"`
 }
 
-// CreateOrder - TODO (document this)
+// CreateOrder creates a new order in TaxJar․
+//
+// See https://developers.taxjar.com/api/reference/?go#post-create-an-order-transaction for more details․
 func (client *Config) CreateOrder(params CreateOrderParams) (*CreateOrderResponse, error) {
 	res, err := client.post("transactions/orders", params)
 	if err != nil {

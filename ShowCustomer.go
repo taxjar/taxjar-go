@@ -2,12 +2,16 @@ package taxjar
 
 import "encoding/json"
 
-// ShowCustomerResponse - TODO (document this)
+// ShowCustomerResponse is the structure returned from `ShowCustomer`․
+//
+// Access the customer with `ShowCustomerResponse.Customer`․
 type ShowCustomerResponse struct {
 	CreateCustomerResponse
 }
 
-// ShowCustomer - TODO (document this)
+// ShowCustomer shows an existing customer in TaxJar․
+//
+// See https://developers.taxjar.com/api/reference/?go#get-show-a-customer for more details․
 func (client *Config) ShowCustomer(customerID string) (*ShowCustomerResponse, error) {
 	res, err := client.get("customers/" + customerID)
 	if err != nil {
