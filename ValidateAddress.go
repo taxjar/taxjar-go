@@ -2,7 +2,7 @@ package taxjar
 
 import "encoding/json"
 
-// ValidateAddressParams - TODO (document this)
+// ValidateAddressParams should be passed to `ValidateAddress` to validate an address․
 type ValidateAddressParams struct {
 	Country string `json:"country,omitempty"`
 	State   string `json:"state,omitempty"`
@@ -11,7 +11,7 @@ type ValidateAddressParams struct {
 	Street  string `json:"street,omitempty"`
 }
 
-// Address - TODO (document this)
+// Address is the structure for an address returned from `ValidateAddress` within `ValidateAddressResponse.Addresses`․
 type Address struct {
 	Country string `json:"country"`
 	State   string `json:"state"`
@@ -20,12 +20,18 @@ type Address struct {
 	Street  string `json:"street"`
 }
 
-// ValidateAddressResponse - TODO (document this)
+// ValidateAddressResponse is the structure returned from `ValidateAddress․`
+//
+// Access the returned list of address matches with `ValidateAddressResponse.Addresses`․
 type ValidateAddressResponse struct {
 	Addresses []Address `json:"addresses"`
 }
 
-// ValidateAddress - TODO (document this)
+// ValidateAddress validates a customer address and returns back a collection of address matches․
+//
+// Address validation requires a TaxJar Plus subscription (https://www.taxjar.com/plus/)․
+//
+// See https://developers.taxjar.com/api/reference/?go#post-validate-an-address for more details․
 func (client *Config) ValidateAddress(params ValidateAddressParams) (*ValidateAddressResponse, error) {
 	res, err := client.post("addresses/validate", params)
 	if err != nil {

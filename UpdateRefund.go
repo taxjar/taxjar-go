@@ -2,7 +2,7 @@ package taxjar
 
 import "encoding/json"
 
-// UpdateRefundParams - TODO (document this)
+// UpdateRefundParams should be passed to `UpdateRefund` to update an existing refund․
 type UpdateRefundParams struct {
 	TransactionID          string           `json:"transaction_id,omitempty"`
 	TransactionReferenceID string           `json:"transaction_reference_id,omitempty"`
@@ -25,12 +25,16 @@ type UpdateRefundParams struct {
 	LineItems              []RefundLineItem `json:"line_items,omitempty"`
 }
 
-// UpdateRefundResponse - TODO (document this)
+// UpdateRefundResponse is the structure returned from `UpdateRefund`․
+//
+// Access the updated refund with `UpdateRefundResponse.Refund`․
 type UpdateRefundResponse struct {
 	Refund Refund `json:"refund"`
 }
 
-// UpdateRefund - TODO (document this)
+// UpdateRefund updates an existing refund in TaxJar․
+//
+// See https://developers.taxjar.com/api/reference/?go#put-update-a-refund-transaction for more details․
 func (client *Config) UpdateRefund(params UpdateRefundParams) (*UpdateRefundResponse, error) {
 	res, err := client.put("transactions/refunds/"+params.TransactionID, params)
 	if err != nil {

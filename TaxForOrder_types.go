@@ -1,6 +1,6 @@
 package taxjar
 
-// NexusAddress - TODO (document this)
+// NexusAddress is the structure for a nexus address passed within `TaxForOrderParams.NexusAddresses`․
 type NexusAddress struct {
 	ID      string `json:"id,omitempty"`
 	Country string `json:"country,omitempty"`
@@ -10,7 +10,7 @@ type NexusAddress struct {
 	Street  string `json:"street,omitempty"`
 }
 
-// TaxLineItem - TODO (document this)
+// TaxLineItem is the structure for a line item passed within `TaxForOrderParams.LineItems`․
 type TaxLineItem struct {
 	ID             string  `json:"id,omitempty"`
 	Quantity       int     `json:"quantity,omitempty"`
@@ -19,7 +19,7 @@ type TaxLineItem struct {
 	Discount       float64 `json:"discount,omitempty"`
 }
 
-// TaxForOrderParams - TODO (document this)
+// TaxForOrderParams should be passed to `TaxForOrder` to calculate tax․
 type TaxForOrderParams struct {
 	FromCountry    string         `json:"from_country,omitempty"`
 	FromZip        string         `json:"from_zip,omitempty"`
@@ -39,7 +39,7 @@ type TaxForOrderParams struct {
 	LineItems      []TaxLineItem  `json:"line_items,omitempty"`
 }
 
-// Jurisdictions - TODO (document this)
+// Jurisdictions is the structure for `TaxForOrderResponse.Tax.Jurisdictions`․
 type Jurisdictions struct {
 	Country string `json:"country"`
 	State   string `json:"state"`
@@ -47,7 +47,7 @@ type Jurisdictions struct {
 	City    string `json:"city"`
 }
 
-// Shipping - TODO (document this)
+// Shipping is the structure for `TaxForOrderResponse.Tax.Breakdown.Shipping`․
 type Shipping struct {
 	TaxableAmount         float64 `json:"taxable_amount"`
 	TaxCollectable        float64 `json:"tax_collectable"`
@@ -80,7 +80,7 @@ type Shipping struct {
 	CountryTaxCollectable float64 `json:"country_tax_collectable"`
 }
 
-// LineItemBreakdown - TODO (document this)
+// LineItemBreakdown is the structure for a line item in `TaxForOrderResponse.Tax.Breakdown.LineItems`․
 type LineItemBreakdown struct {
 	ID                           string  `json:"id"`
 	TaxableAmount                float64 `json:"taxable_amount"`
@@ -114,7 +114,7 @@ type LineItemBreakdown struct {
 	CountryTaxCollectable float64 `json:"country_tax_collectable"`
 }
 
-// Breakdown - TODO (document this)
+// Breakdown is the structure for `TaxForOrderResponse.Tax.Breakdown`․
 type Breakdown struct {
 	TaxableAmount                 float64             `json:"taxable_amount"`
 	TaxCollectable                float64             `json:"tax_collectable"`
@@ -149,7 +149,7 @@ type Breakdown struct {
 	CountryTaxCollectable float64 `json:"country_tax_collectable"`
 }
 
-// Tax - TODO (document this)
+// Tax is the stucture for a tax calculation returned within `TaxForOrderResponse`․
 type Tax struct {
 	OrderTotalAmount float64       `json:"order_total_amount"`
 	Shipping         float64       `json:"shipping"`
@@ -164,7 +164,9 @@ type Tax struct {
 	Breakdown        Breakdown     `json:"breakdown"`
 }
 
-// TaxForOrderResponse - TODO (document this)
+// TaxForOrderResponse is the structure returned from `TaxForOrder`․
+//
+// Access the calculated tax with `TaxForOrderResponse.Tax`․
 type TaxForOrderResponse struct {
 	Tax Tax `json:"tax"`
 }

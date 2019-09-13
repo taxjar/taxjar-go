@@ -2,7 +2,7 @@ package taxjar
 
 import "encoding/json"
 
-// ListRefundsParams - TODO (document this)
+// ListRefundsParams should be passed to `ListRefunds` to list existing refund IDs․
 type ListRefundsParams struct {
 	TransactionDate     string `url:"transaction_date,omitempty"`
 	FromTransactionDate string `url:"from_transaction_date,omitempty"`
@@ -10,12 +10,16 @@ type ListRefundsParams struct {
 	Provider            string `url:"provider,omitempty"`
 }
 
-// ListRefundsResponse TODO (document this)
+// ListRefundsResponse is the structure returned from `ListRefunds`․
+//
+// Access the refund list with `ListRefundsResponse.Refunds`․
 type ListRefundsResponse struct {
 	Refunds []string `json:"refunds"`
 }
 
-// ListRefunds - TODO (document this)
+// ListRefunds lists existing refund IDs in TaxJar․
+//
+// See https://developers.taxjar.com/api/reference/?go#get-list-refund-transactions for more details․
 func (client *Config) ListRefunds(params ListRefundsParams) (*ListRefundsResponse, error) {
 	res, err := client.get("transactions/refunds", params)
 	if err != nil {

@@ -2,22 +2,26 @@ package taxjar
 
 import "encoding/json"
 
-// ShowRefundParams - TODO (document this)
+// ShowRefundParams should be passed to `ShowRefund` to show a refund․
 type ShowRefundParams struct {
 	Provider string `url:"provider,omitempty"`
 }
 
-// Refund - TODO (document this)
+// Refund is the structure for a refund returned within `CreateRefundResponse`, `ShowRefundResponse`, `UpdateRefundResponse`, and `DeleteRefundResponse`․
 type Refund struct {
 	Order
 }
 
-// ShowRefundResponse - TODO (document this)
+// ShowRefundResponse is the structure returned from `ShowRefund`․
+//
+// Access the refund with `ShowRefundResponse.Refund`․
 type ShowRefundResponse struct {
 	Refund Refund `json:"refund"`
 }
 
-// RefundLineItem - TODO (document this)
+// RefundLineItem is the structure for a line item passed within `CreateRefundParams.LineItems` and `UpdateRefundParams.LineItems`․
+//
+// RefundLineItem is also the structure for a line item returned within `CreateRefundResponse.Refund.LineItems`, `UpdateRefundResponse.Refund.LineItems`, `ShowRefundResponse.Refund.LineItems`, and `DeleteRefundResponse.Refund.LineItems`․
 type RefundLineItem struct {
 	ID                string  `json:"id,omitempty"`
 	Quantity          int     `json:"quantity,omitempty"`
@@ -29,7 +33,9 @@ type RefundLineItem struct {
 	SalesTax          float64 `json:"sales_tax,omitempty"`
 }
 
-// ShowRefund - TODO (document this)
+// ShowRefund shows an existing refund in TaxJar․
+//
+// See https://developers.taxjar.com/api/reference/?go#get-show-a-refund-transaction for more details․
 func (client *Config) ShowRefund(transactionID string, params ...ShowRefundParams) (*ShowRefundResponse, error) {
 	res, err := client.get("transactions/refunds/"+transactionID, params)
 	if err != nil {

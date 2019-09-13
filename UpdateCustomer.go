@@ -2,7 +2,7 @@ package taxjar
 
 import "encoding/json"
 
-// UpdateCustomerParams - TODO (document this)
+// UpdateCustomerParams should be passed to `UpdateCustomer` to update an existing customer․
 type UpdateCustomerParams struct {
 	CustomerID    string         `json:"customer_id,omitempty"`
 	ExemptionType string         `json:"exemption_type,omitempty"`
@@ -15,12 +15,18 @@ type UpdateCustomerParams struct {
 	Street        string         `json:"street,omitempty"`
 }
 
-// UpdateCustomerResponse - TODO (document this)
+// UpdateCustomerResponse is the structure returned from `UpdateCustomer`․
+//
+// Access the updated customer with `UpdateCustomerResponse.Customer`.
 type UpdateCustomerResponse struct {
 	CreateCustomerResponse
 }
 
-// UpdateCustomer - TODO (document this)
+// UpdateCustomer updates an existing customer in TaxJar․
+//
+// Use the updated customer's `CustomerID` when calculating tax with TaxForOrder or when creating or updating transactions․
+//
+// See https://developers.taxjar.com/api/reference/?go#put-update-a-customer for more details․
 func (client *Config) UpdateCustomer(params UpdateCustomerParams) (*UpdateCustomerResponse, error) {
 	res, err := client.put("customers/"+params.CustomerID, params)
 	if err != nil {

@@ -2,7 +2,7 @@ package taxjar
 
 import "encoding/json"
 
-// CreateRefundParams - TODO (document this)
+// CreateRefundParams should be passed to `CreateRefund` to create a refund․
 type CreateRefundParams struct {
 	TransactionID          string           `json:"transaction_id,omitempty"`
 	TransactionReferenceID string           `json:"transaction_reference_id,omitempty"`
@@ -26,12 +26,16 @@ type CreateRefundParams struct {
 	LineItems              []RefundLineItem `json:"line_items,omitempty"`
 }
 
-// CreateRefundResponse - TODO (document this)
+// CreateRefundResponse is the structure returned from `CreateRefund`․
+//
+// Access the created refund with `CreateRefundResponse.Refund`․
 type CreateRefundResponse struct {
 	Refund Refund `json:"refund"`
 }
 
-// CreateRefund - TODO (document this)
+// CreateRefund creates a new refund in TaxJar․
+//
+// See https://developers.taxjar.com/api/reference/?go#post-create-a-refund-transaction for more details․
 func (client *Config) CreateRefund(params CreateRefundParams) (*CreateRefundResponse, error) {
 	res, err := client.post("transactions/refunds", params)
 	if err != nil {

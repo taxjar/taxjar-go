@@ -2,12 +2,12 @@ package taxjar
 
 import "encoding/json"
 
-// ValidateParams - TODO (document this)
+// ValidateParams should be passed to `Validate` to validate a VAT identification number with VIES (http://ec.europa.eu/taxation_customs/vies/)․
 type ValidateParams struct {
 	VAT string `url:"vat,omitempty"`
 }
 
-// VIESResponse - TODO (document this)
+// VIESResponse is the structure for a response from VIES (http://ec.europa.eu/taxation_customs/vies/) returned as `ValidateResponse.Validation.ViesResponse`․
 type VIESResponse struct {
 	CountryCode string `json:"country_code"`
 	VATNumber   string `json:"vat_number"`
@@ -17,7 +17,7 @@ type VIESResponse struct {
 	Address     string `json:"address"`
 }
 
-// Validation - TODO (document this)
+// Validation is the structure for a VAT identification number validation returned within `ValidateResponse`․
 type Validation struct {
 	Valid         bool         `json:"valid"`
 	Exists        bool         `json:"exists"`
@@ -25,12 +25,16 @@ type Validation struct {
 	VIESResponse  VIESResponse `json:"vies_response"`
 }
 
-// ValidateResponse - TODO (document this)
+// ValidateResponse is the structure returned from `Validate`․
+//
+// Access the validation with `ValidateResponse.Validation`․
 type ValidateResponse struct {
 	Validation Validation `json:"validation"`
 }
 
-// Validate - TODO (document this)
+// Validate validates a VAT identification number with VIES (http://ec.europa.eu/taxation_customs/vies/)․
+//
+// See https://developers.taxjar.com/api/reference/?go#get-validate-a-vat-number for more details․
 func (client *Config) Validate(params ValidateParams) (*ValidateResponse, error) {
 	res, err := client.get("validation", params)
 	if err != nil {
