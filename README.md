@@ -1,6 +1,21 @@
 # TaxJar Sales Tax API for Go ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/taxjar/taxjar-go?style=flat-square&label=release&sort=semver) [![GoDoc](https://img.shields.io/badge/godoc-docs-blue.svg?style=flat-square&color=darkturquoise)](https://godoc.org/github.com/taxjar/taxjar-go) [![Build Status](http://img.shields.io/travis/taxjar/taxjar-go.svg?style=flat-square)](https://travis-ci.org/taxjar/taxjar-go)
 
+<a href="http://developers.taxjar.com"><img src="http://www.taxjar.com/img/TJ_logo_color_office_png.png" alt="TaxJar" width="220"></a>
+
 Official Go client for Sales Tax API v2. For the API documentation, please visit [https://developers.taxjar.com/api/reference/](https://developers.taxjar.com/api/reference/?go).
+
+<hr>
+
+[Requirements](#requirements)<br>
+[Installation](#installation)<br>
+[Authentication](#authentication)<br>
+[Usage](#usage)<br>
+[Error Handling](#error-handling)<br>
+[Optional Configuration](#optional-configuration)<br>
+[Sandbox Environment](#sandbox-environment)<br>
+[Testing](#testing)
+
+<hr>
 
 ## Requirements
 
@@ -34,7 +49,34 @@ client := taxjar.NewClient()
 client.APIKey = os.Getenv("TAXJAR_API_KEY")
 ```
 
+You're now ready to use TaxJar! [Check out our quickstart guide](https://developers.taxjar.com/api/guides/go/#go-quickstart) to get up and running quickly.
+
 ## Usage
+
+[`Categories` - List all tax categories](#list-all-tax-categories-api-docs)<br>
+[`TaxForOrder` - Calculate sales tax for an order](#calculate-sales-tax-for-an-order-api-docs)<br>
+[`ListOrders` - List order transactions](#list-order-transactions-api-docs)<br>
+[`ShowOrder` - Show order transaction](#show-order-transaction-api-docs)<br>
+[`CreateOrder` - Create order transaction](#create-order-transaction-api-docs)<br>
+[`UpdateOrder` - Update order transaction](#update-order-transaction-api-docs)<br>
+[`DeleteOrder` - Delete order transaction](#delete-order-transaction-api-docs)<br>
+[`ListRefunds` - List refund transactions](#list-refund-transactions-api-docs)<br>
+[`ShowRefund` - Show refund transaction](#show-refund-transaction-api-docs)<br>
+[`CreateRefund` - Create refund transaction](#create-refund-transaction-api-docs)<br>
+[`UpdateRefund` - Update refund transaction](#update-refund-transaction-api-docs)<br>
+[`DeleteRefund` - Delete refund transaction](#delete-refund-transaction-api-docs)<br>
+[`ListCustomers` - List customers](#list-customers-api-docs)<br>
+[`ShowCustomer` - Show customer](#show-customer-api-docs)<br>
+[`CreateCustomer` - Create customer](#create-customer-api-docs)<br>
+[`UpdateCustomer` - Update customer](#update-customer-api-docs)<br>
+[`DeleteCustomer` - Delete customer](#delete-customer-api-docs)<br>
+[`RatesForLocation` - List tax rates for a location (by zip/postal code)](#list-tax-rates-for-a-location-by-zippostal-code-api-docs)<br>
+[`NexusRegions` - List nexus regions](#list-nexus-regions-api-docs)<br>
+[`ValidateAddress` - Validate an address](#validate-an-address-api-docs)<br>
+[`Validate` - Validate a VAT number](#validate-a-vat-number-api-docs)<br>
+[`SummaryRates` - Summarize tax rates for all regions](#summarize-tax-rates-for-all-regions-api-docs)
+
+<hr>
 
 ### List all tax categories <small>_([API docs](https://developers.taxjar.com/api/reference/?go#get-list-tax-categories))_</small>
 
@@ -155,6 +197,7 @@ res, _ := client.UpdateOrder(taxjar.UpdateOrderParams{
 	TransactionID: "123",
 	Amount:        283.6,
 	Shipping:      5,
+	SalesTax:      1.04,
 	LineItems:     []taxjar.OrderLineItem{
 		{
 			ID:             "1",
@@ -376,7 +419,7 @@ fmt.Println(res.Customer) // DeleteCustomerResponse.Customer
 
 > Shows the sales tax rates for a given location.
 >
-> **Please note this method only returns the full combined rate for a given location.** It does not support nexus determination, sourcing based on a ship from and ship to address, shipping taxability, product exemptions, customer exemptions, or sales tax holidays. We recommend using [`TaxForOrder` to accurately calculate sales tax for an order](#calculate-sales-tax-for-an-order-smallAPI-docssmall)).
+> **Please note this method only returns the full combined rate for a given location.** It does not support nexus determination, sourcing based on a ship from and ship to address, shipping taxability, product exemptions, customer exemptions, or sales tax holidays. We recommend using [`TaxForOrder` to accurately calculate sales tax for an order](#calculate-sales-tax-for-an-order-api-docs).
 
 **func (client \*[Config](https://godoc.org/github.com/taxjar/taxjar-go/#Config)) [RatesForLocation](https://godoc.org/github.com/taxjar/taxjar-go/#Config.RatesForLocation)(zip [string](https://godoc.org/builtin/#string), params ...[RatesForLocationParams](https://godoc.org/github.com/taxjar/taxjar-go/#RatesForLocationParams)) (\*[RatesForLocationResponse](https://godoc.org/github.com/taxjar/taxjar-go/#RatesForLocationResponse), [error](https://godoc.org/builtin/#error))**
 
@@ -430,7 +473,7 @@ fmt.Println(res.Validation) // ValidateResponse.Validation
 
 > Retrieve minimum and average sales tax rates by region as a backup.
 >
-> This method is useful for periodically pulling down rates to use if the SmartCalcs API is unavailable. However, it does not support nexus determination, sourcing based on a ship from and ship to address, shipping taxability, product exemptions, customer exemptions, or sales tax holidays. We recommend using [`TaxForOrder` to accurately calculate sales tax for an order](#calculate-sales-tax-for-an-order-smallAPI-docssmall)).
+> This method is useful for periodically pulling down rates to use if the SmartCalcs API is unavailable. However, it does not support nexus determination, sourcing based on a ship from and ship to address, shipping taxability, product exemptions, customer exemptions, or sales tax holidays. We recommend using [`TaxForOrder` to accurately calculate sales tax for an order](#calculate-sales-tax-for-an-order-api-docs).
 
 **func (client \*[Config](https://godoc.org/github.com/taxjar/taxjar-go/#Config)) [SummaryRates](https://godoc.org/github.com/taxjar/taxjar-go/#Config.SummaryRates)() (\*[SummaryRatesResponse](https://godoc.org/github.com/taxjar/taxjar-go/#SummaryRatesResponse), [error](https://godoc.org/builtin/#error))**
 
