@@ -13,7 +13,7 @@ type ListCustomersResponse struct {
 //
 // See https://developers.taxjar.com/api/reference/?go#get-list-customers for more details․
 func (client *Config) ListCustomers() (*ListCustomersResponse, error) {
-	res, err := client.get("customers")
+	res, err := client.get("customers", nil)
 	if err != nil {
 		return nil, err
 	}

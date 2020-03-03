@@ -47,7 +47,11 @@ type RatesForLocationResponse struct {
 //
 // See https://developers.taxjar.com/api/reference/?go#get-show-tax-rates-for-a-location for more details.
 func (client *Config) RatesForLocation(zip string, params ...RatesForLocationParams) (*RatesForLocationResponse, error) {
-	res, err := client.get("rates/"+zip, params)
+	var p interface{}
+	if len(params) > 0 {
+		p = params[0]
+	}
+	res, err := client.get("rates/"+zip, p)
 	if err != nil {
 		return nil, err
 	}

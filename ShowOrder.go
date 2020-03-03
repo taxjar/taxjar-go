@@ -32,7 +32,11 @@ type OrderLineItem struct {
 //
 // See https://developers.taxjar.com/api/reference/?go#get-show-an-order-transaction for more details․
 func (client *Config) ShowOrder(transactionID string, params ...ShowOrderParams) (*ShowOrderResponse, error) {
-	res, err := client.get("transactions/orders/"+transactionID, params)
+	var p interface{}
+	if len(params) > 0 {
+		p = params[0]
+	}
+	res, err := client.get("transactions/orders/"+transactionID, p)
 	if err != nil {
 		return nil, err
 	}

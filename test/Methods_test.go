@@ -502,7 +502,7 @@ var _ = Describe("Method:", func() {
 	Context("RatesForLocation", func() {
 		It("looks up rates", func() {
 			server.AppendHandlers(ghttp.CombineHandlers(
-				ghttp.VerifyRequest("GET", "/v2/rates/89001"),
+				ghttp.VerifyRequest("GET", "/v2/rates/89001", "country=US&state=NV&city=Alamo&street=Mail%20Box%20Rd"),
 				ghttp.RespondWith(http.StatusOK, mocks.RatesForLocationJSON),
 			))
 			res, err := client.RatesForLocation("89001", taxjar.RatesForLocationParams{

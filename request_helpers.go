@@ -64,9 +64,13 @@ func (client *Config) addHeaders(req *http.Request) {
 	}
 }
 
-func addQueryParams(req *http.Request, params interface{}) {
-	queryParams, _ := query.Values(params)
+func addQueryParams(req *http.Request, params interface{}) error {
+	queryParams, err := query.Values(params)
+	if err != nil {
+		return err
+	}
 	req.URL.RawQuery = queryParams.Encode()
+	return nil
 }
 
 func (client *Config) sendRequest(req *http.Request) ([]byte, error) {

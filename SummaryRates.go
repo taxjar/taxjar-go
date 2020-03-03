@@ -29,7 +29,7 @@ type SummaryRatesResponse struct {
 //
 // See https://developers.taxjar.com/api/reference/?go#get-summarize-tax-rates-for-all-regions for more details․
 func (client *Config) SummaryRates() (*SummaryRatesResponse, error) {
-	res, err := client.get("summary_rates")
+	res, err := client.get("summary_rates", nil)
 	if err != nil {
 		return nil, err
 	}

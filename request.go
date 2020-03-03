@@ -6,10 +6,12 @@ import (
 	"net/http"
 )
 
-func (client *Config) get(endpoint string, params ...interface{}) (interface{}, error) {
+func (client *Config) get(endpoint string, params interface{}) (interface{}, error) {
 	req, _ := http.NewRequest("GET", client.url(endpoint), nil)
-	if len(params) > 0 {
-		addQueryParams(req, params[0])
+	if params != nil {
+		if err := addQueryParams(req, params); err != nil {
+			return nil, err
+		}
 	}
 	return client.sendRequest(req)
 }

@@ -21,7 +21,7 @@ type NexusRegionsResponse struct {
 //
 // See https://developers.taxjar.com/api/reference/?go#get-list-nexus-regions for more details․
 func (client *Config) NexusRegions() (*NexusRegionsResponse, error) {
-	res, err := client.get("nexus/regions")
+	res, err := client.get("nexus/regions", nil)
 	if err != nil {
 		return nil, err
 	}

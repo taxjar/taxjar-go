@@ -37,7 +37,11 @@ type RefundLineItem struct {
 //
 // See https://developers.taxjar.com/api/reference/?go#get-show-a-refund-transaction for more details․
 func (client *Config) ShowRefund(transactionID string, params ...ShowRefundParams) (*ShowRefundResponse, error) {
-	res, err := client.get("transactions/refunds/"+transactionID, params)
+	var p interface{}
+	if len(params) > 0 {
+		p = params[0]
+	}
+	res, err := client.get("transactions/refunds/"+transactionID, p)
 	if err != nil {
 		return nil, err
 	}

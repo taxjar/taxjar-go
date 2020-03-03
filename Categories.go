@@ -20,7 +20,7 @@ type CategoriesResponse struct {
 //
 // See https://developers.taxjar.com/api/reference/?go#categories for more details․
 func (client *Config) Categories() (*CategoriesResponse, error) {
-	res, err := client.get("categories")
+	res, err := client.get("categories", nil)
 	if err != nil {
 		return nil, err
 	}
