@@ -18,6 +18,8 @@ func (client *Config) ListCustomers() (*ListCustomersResponse, error) {
 		return nil, err
 	}
 	customers := new(ListCustomersResponse)
-	json.Unmarshal(res.([]byte), &customers)
+	if err := json.Unmarshal(res.([]byte), &customers); err != nil {
+		return nil, err
+	}
 	return customers, nil
 }

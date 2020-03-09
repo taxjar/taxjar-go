@@ -26,6 +26,8 @@ func (client *Config) ListRefunds(params ListRefundsParams) (*ListRefundsRespons
 		return nil, err
 	}
 	refunds := new(ListRefundsResponse)
-	json.Unmarshal(res.([]byte), &refunds)
+	if err := json.Unmarshal(res.([]byte), &refunds); err != nil {
+		return nil, err
+	}
 	return refunds, nil
 }

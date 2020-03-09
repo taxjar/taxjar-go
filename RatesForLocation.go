@@ -56,6 +56,8 @@ func (client *Config) RatesForLocation(zip string, params ...RatesForLocationPar
 		return nil, err
 	}
 	rate := new(RatesForLocationResponse)
-	json.Unmarshal(res.([]byte), &rate)
+	if err := json.Unmarshal(res.([]byte), &rate); err != nil {
+		return nil, err
+	}
 	return rate, nil
 }

@@ -81,7 +81,10 @@ func (client *Config) sendRequest(req *http.Request) ([]byte, error) {
 		return nil, err
 	}
 	defer res.Body.Close()
-	body, _ := ioutil.ReadAll(res.Body)
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return nil, err
+	}
 	if res.StatusCode >= 400 {
 		err := new(Error)
 		json.Unmarshal(body, err)

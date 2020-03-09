@@ -27,6 +27,8 @@ func (client *Config) DeleteOrder(transactionID string, params ...DeleteOrderPar
 		return nil, err
 	}
 	order := new(DeleteOrderResponse)
-	json.Unmarshal(res.([]byte), &order)
+	if err := json.Unmarshal(res.([]byte), &order); err != nil {
+		return nil, err
+	}
 	return order, nil
 }

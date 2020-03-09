@@ -34,6 +34,8 @@ func (client *Config) SummaryRates() (*SummaryRatesResponse, error) {
 		return nil, err
 	}
 	summaryRates := new(SummaryRatesResponse)
-	json.Unmarshal(res.([]byte), &summaryRates)
+	if err := json.Unmarshal(res.([]byte), &summaryRates); err != nil {
+		return nil, err
+	}
 	return summaryRates, nil
 }

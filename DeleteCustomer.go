@@ -18,6 +18,8 @@ func (client *Config) DeleteCustomer(customerID string) (*DeleteCustomerResponse
 		return nil, err
 	}
 	customer := new(DeleteCustomerResponse)
-	json.Unmarshal(res.([]byte), &customer)
+	if err := json.Unmarshal(res.([]byte), &customer); err != nil {
+		return nil, err
+	}
 	return customer, nil
 }

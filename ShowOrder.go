@@ -41,6 +41,8 @@ func (client *Config) ShowOrder(transactionID string, params ...ShowOrderParams)
 		return nil, err
 	}
 	order := new(ShowOrderResponse)
-	json.Unmarshal(res.([]byte), &order)
+	if err := json.Unmarshal(res.([]byte), &order); err != nil {
+		return nil, err
+	}
 	return order, nil
 }

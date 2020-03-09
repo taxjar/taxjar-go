@@ -26,6 +26,8 @@ func (client *Config) NexusRegions() (*NexusRegionsResponse, error) {
 		return nil, err
 	}
 	regions := new(NexusRegionsResponse)
-	json.Unmarshal(res.([]byte), &regions)
+	if err := json.Unmarshal(res.([]byte), &regions); err != nil {
+		return nil, err
+	}
 	return regions, nil
 }

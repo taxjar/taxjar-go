@@ -25,6 +25,8 @@ func (client *Config) Categories() (*CategoriesResponse, error) {
 		return nil, err
 	}
 	categories := new(CategoriesResponse)
-	json.Unmarshal(res.([]byte), &categories)
+	if err := json.Unmarshal(res.([]byte), &categories); err != nil {
+		return nil, err
+	}
 	return categories, nil
 }

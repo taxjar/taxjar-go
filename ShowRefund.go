@@ -46,6 +46,8 @@ func (client *Config) ShowRefund(transactionID string, params ...ShowRefundParam
 		return nil, err
 	}
 	refund := new(ShowRefundResponse)
-	json.Unmarshal(res.([]byte), &refund)
+	if err := json.Unmarshal(res.([]byte), &refund); err != nil {
+		return nil, err
+	}
 	return refund, nil
 }

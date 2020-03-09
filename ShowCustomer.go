@@ -18,6 +18,8 @@ func (client *Config) ShowCustomer(customerID string) (*ShowCustomerResponse, er
 		return nil, err
 	}
 	customer := new(ShowCustomerResponse)
-	json.Unmarshal(res.([]byte), &customer)
+	if err := json.Unmarshal(res.([]byte), &customer); err != nil {
+		return nil, err
+	}
 	return customer, nil
 }

@@ -41,6 +41,8 @@ func (client *Config) Validate(params ValidateParams) (*ValidateResponse, error)
 		return nil, err
 	}
 	validation := new(ValidateResponse)
-	json.Unmarshal(res.([]byte), &validation)
+	if err := json.Unmarshal(res.([]byte), &validation); err != nil {
+		return nil, err
+	}
 	return validation, nil
 }

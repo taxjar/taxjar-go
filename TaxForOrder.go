@@ -11,6 +11,8 @@ func (client *Config) TaxForOrder(params TaxForOrderParams) (*TaxForOrderRespons
 		return nil, err
 	}
 	tax := new(TaxForOrderResponse)
-	json.Unmarshal(res.([]byte), &tax)
+	if err := json.Unmarshal(res.([]byte), &tax); err != nil {
+		return nil, err
+	}
 	return tax, nil
 }
