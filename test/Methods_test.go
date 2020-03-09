@@ -172,7 +172,7 @@ var _ = Describe("Method:", func() {
 	Context("ListOrders", func() {
 		It("lists orders", func() {
 			server.AppendHandlers(ghttp.CombineHandlers(
-				ghttp.VerifyRequest("GET", "/v2/transactions/orders"),
+				ghttp.VerifyRequest("GET", "/v2/transactions/orders", "transaction_date=2019%2F08%2F26"),
 				ghttp.RespondWith(http.StatusOK, mocks.ListOrdersJSON),
 			))
 			res, err := client.ListOrders(taxjar.ListOrdersParams{
@@ -188,6 +188,16 @@ var _ = Describe("Method:", func() {
 		It("shows an order", func() {
 			server.AppendHandlers(ghttp.CombineHandlers(
 				ghttp.VerifyRequest("GET", "/v2/transactions/orders/24"),
+				ghttp.RespondWith(http.StatusOK, mocks.ShowOrderJSON),
+			))
+			res, err := client.ShowOrder("24")
+			Expect(server.ReceivedRequests()).To(HaveLen(1))
+			Expect(err).NotTo(HaveOccurred())
+			Expect(res).To(Equal(mocks.ShowOrder))
+		})
+		It("shows an order with params", func() {
+			server.AppendHandlers(ghttp.CombineHandlers(
+				ghttp.VerifyRequest("GET", "/v2/transactions/orders/24", "provider=api"),
 				ghttp.RespondWith(http.StatusOK, mocks.ShowOrderJSON),
 			))
 			res, err := client.ShowOrder("24", taxjar.ShowOrderParams{
@@ -290,6 +300,16 @@ var _ = Describe("Method:", func() {
 				ghttp.VerifyRequest("DELETE", "/v2/transactions/orders/24"),
 				ghttp.RespondWith(http.StatusOK, mocks.DeleteOrderJSON),
 			))
+			res, err := client.DeleteOrder("24")
+			Expect(server.ReceivedRequests()).To(HaveLen(1))
+			Expect(err).NotTo(HaveOccurred())
+			Expect(res).To(Equal(mocks.DeleteOrder))
+		})
+		It("deletes an order with params", func() {
+			server.AppendHandlers(ghttp.CombineHandlers(
+				ghttp.VerifyRequest("DELETE", "/v2/transactions/orders/24", "provider=api"),
+				ghttp.RespondWith(http.StatusOK, mocks.DeleteOrderJSON),
+			))
 			res, err := client.DeleteOrder("24", taxjar.DeleteOrderParams{Provider: "api"})
 			Expect(server.ReceivedRequests()).To(HaveLen(1))
 			Expect(err).NotTo(HaveOccurred())
@@ -300,7 +320,7 @@ var _ = Describe("Method:", func() {
 	Context("ListRefunds", func() {
 		It("lists refunds", func() {
 			server.AppendHandlers(ghttp.CombineHandlers(
-				ghttp.VerifyRequest("GET", "/v2/transactions/refunds"),
+				ghttp.VerifyRequest("GET", "/v2/transactions/refunds", "transaction_date=2019%2F08%2F26&provider=api"),
 				ghttp.RespondWith(http.StatusOK, mocks.ListRefundsJSON),
 			))
 			res, err := client.ListRefunds(taxjar.ListRefundsParams{
@@ -317,6 +337,16 @@ var _ = Describe("Method:", func() {
 		It("shows a refund", func() {
 			server.AppendHandlers(ghttp.CombineHandlers(
 				ghttp.VerifyRequest("GET", "/v2/transactions/refunds/24-refund"),
+				ghttp.RespondWith(http.StatusOK, mocks.ShowRefundJSON),
+			))
+			res, err := client.ShowRefund("24-refund")
+			Expect(server.ReceivedRequests()).To(HaveLen(1))
+			Expect(err).NotTo(HaveOccurred())
+			Expect(res).To(Equal(mocks.ShowRefund))
+		})
+		It("shows a refund with params", func() {
+			server.AppendHandlers(ghttp.CombineHandlers(
+				ghttp.VerifyRequest("GET", "/v2/transactions/refunds/24-refund", "provider=api"),
 				ghttp.RespondWith(http.StatusOK, mocks.ShowRefundJSON),
 			))
 			res, err := client.ShowRefund("24-refund", taxjar.ShowRefundParams{
@@ -404,6 +434,16 @@ var _ = Describe("Method:", func() {
 		It("deletes a refund", func() {
 			server.AppendHandlers(ghttp.CombineHandlers(
 				ghttp.VerifyRequest("DELETE", "/v2/transactions/refunds/24-refund"),
+				ghttp.RespondWith(http.StatusOK, mocks.DeleteRefundJSON),
+			))
+			res, err := client.DeleteRefund("24-refund")
+			Expect(server.ReceivedRequests()).To(HaveLen(1))
+			Expect(err).NotTo(HaveOccurred())
+			Expect(res).To(Equal(mocks.DeleteRefund))
+		})
+		It("deletes a refund with params", func() {
+			server.AppendHandlers(ghttp.CombineHandlers(
+				ghttp.VerifyRequest("DELETE", "/v2/transactions/refunds/24-refund", "provider=api"),
 				ghttp.RespondWith(http.StatusOK, mocks.DeleteRefundJSON),
 			))
 			res, err := client.DeleteRefund("24-refund", taxjar.DeleteRefundParams{
@@ -502,6 +542,16 @@ var _ = Describe("Method:", func() {
 	Context("RatesForLocation", func() {
 		It("looks up rates", func() {
 			server.AppendHandlers(ghttp.CombineHandlers(
+				ghttp.VerifyRequest("GET", "/v2/rates/89001"),
+				ghttp.RespondWith(http.StatusOK, mocks.RatesForLocationJSON),
+			))
+			res, err := client.RatesForLocation("89001")
+			Expect(server.ReceivedRequests()).To(HaveLen(1))
+			Expect(err).NotTo(HaveOccurred())
+			Expect(res).To(Equal(mocks.RatesForLocation))
+		})
+		It("looks up rates with params", func() {
+			server.AppendHandlers(ghttp.CombineHandlers(
 				ghttp.VerifyRequest("GET", "/v2/rates/89001", "country=US&state=NV&city=Alamo&street=Mail%20Box%20Rd"),
 				ghttp.RespondWith(http.StatusOK, mocks.RatesForLocationJSON),
 			))
@@ -550,9 +600,9 @@ var _ = Describe("Method:", func() {
 	})
 
 	Context("Validate", func() {
-		It("validates an VAT identification number", func() {
+		It("validates a VAT identification number", func() {
 			server.AppendHandlers(ghttp.CombineHandlers(
-				ghttp.VerifyRequest("GET", "/v2/validation"),
+				ghttp.VerifyRequest("GET", "/v2/validation", "vat=FR40303265045"),
 				ghttp.RespondWith(http.StatusOK, mocks.ValidateJSON),
 			))
 			res, err := client.Validate(taxjar.ValidateParams{
