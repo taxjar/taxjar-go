@@ -13,7 +13,7 @@ type DeleteCustomerResponse struct {
 //
 // See https://developers.taxjar.com/api/reference/?go#delete-delete-a-customer for more details․
 func (client *Config) DeleteCustomer(customerID string) (*DeleteCustomerResponse, error) {
-	res, err := client.delete("customers/" + customerID)
+	res, err := client.delete("customers/"+customerID, nil)
 	if err != nil {
 		return nil, err
 	}

@@ -28,8 +28,12 @@ func (client *Config) put(endpoint string, params interface{}) (interface{}, err
 	return client.sendRequest(req)
 }
 
-func (client *Config) delete(endpoint string, params ...interface{}) (interface{}, error) {
+func (client *Config) delete(endpoint string, params interface{}) (interface{}, error) {
 	req, _ := http.NewRequest("DELETE", client.url(endpoint), nil)
-	addQueryParams(req, params)
+	if params != nil {
+		if err := addQueryParams(req, params); err != nil {
+			return nil, err
+		}
+	}
 	return client.sendRequest(req)
 }
