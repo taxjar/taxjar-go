@@ -17,9 +17,11 @@ func (client *Config) ListCustomers() (*ListCustomersResponse, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	customers := new(ListCustomersResponse)
 	if err := json.Unmarshal(res.([]byte), &customers); err != nil {
 		return nil, err
 	}
+
 	return customers, nil
 }

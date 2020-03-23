@@ -49,9 +49,11 @@ func (client *Config) CreateCustomer(params CreateCustomerParams) (*CreateCustom
 	if err != nil {
 		return nil, err
 	}
+
 	customer := new(CreateCustomerResponse)
 	if err := json.Unmarshal(res.([]byte), &customer); err != nil {
 		return nil, err
 	}
+
 	return customer, nil
 }

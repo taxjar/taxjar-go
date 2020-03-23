@@ -40,9 +40,11 @@ func (client *Config) UpdateRefund(params UpdateRefundParams) (*UpdateRefundResp
 	if err != nil {
 		return nil, err
 	}
+
 	refund := new(UpdateRefundResponse)
 	if err := json.Unmarshal(res.([]byte), &refund); err != nil {
 		return nil, err
 	}
+
 	return refund, nil
 }

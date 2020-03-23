@@ -33,9 +33,11 @@ func (client *Config) SummaryRates() (*SummaryRatesResponse, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	summaryRates := new(SummaryRatesResponse)
 	if err := json.Unmarshal(res.([]byte), &summaryRates); err != nil {
 		return nil, err
 	}
+
 	return summaryRates, nil
 }

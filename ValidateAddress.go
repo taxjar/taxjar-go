@@ -37,9 +37,11 @@ func (client *Config) ValidateAddress(params ValidateAddressParams) (*ValidateAd
 	if err != nil {
 		return nil, err
 	}
+
 	addresses := new(ValidateAddressResponse)
 	if err := json.Unmarshal(res.([]byte), &addresses); err != nil {
 		return nil, err
 	}
+
 	return addresses, nil
 }

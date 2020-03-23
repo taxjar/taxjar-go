@@ -64,9 +64,11 @@ func (client *Config) CreateOrder(params CreateOrderParams) (*CreateOrderRespons
 	if err != nil {
 		return nil, err
 	}
+
 	order := new(CreateOrderResponse)
 	if err := json.Unmarshal(res.([]byte), &order); err != nil {
 		return nil, err
 	}
+
 	return order, nil
 }

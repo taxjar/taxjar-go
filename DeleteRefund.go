@@ -22,13 +22,16 @@ func (client *Config) DeleteRefund(transactionID string, params ...DeleteRefundP
 	if len(params) > 0 {
 		p = params[0]
 	}
+
 	res, err := client.delete("transactions/refunds/"+transactionID, p)
 	if err != nil {
 		return nil, err
 	}
+
 	refund := new(DeleteRefundResponse)
 	if err := json.Unmarshal(res.([]byte), &refund); err != nil {
 		return nil, err
 	}
+
 	return refund, nil
 }

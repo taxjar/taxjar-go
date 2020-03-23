@@ -36,13 +36,16 @@ func (client *Config) ShowOrder(transactionID string, params ...ShowOrderParams)
 	if len(params) > 0 {
 		p = params[0]
 	}
+
 	res, err := client.get("transactions/orders/"+transactionID, p)
 	if err != nil {
 		return nil, err
 	}
+
 	order := new(ShowOrderResponse)
 	if err := json.Unmarshal(res.([]byte), &order); err != nil {
 		return nil, err
 	}
+
 	return order, nil
 }

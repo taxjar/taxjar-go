@@ -22,13 +22,16 @@ func (client *Config) DeleteOrder(transactionID string, params ...DeleteOrderPar
 	if len(params) > 0 {
 		p = params[0]
 	}
+
 	res, err := client.delete("transactions/orders/"+transactionID, p)
 	if err != nil {
 		return nil, err
 	}
+
 	order := new(DeleteOrderResponse)
 	if err := json.Unmarshal(res.([]byte), &order); err != nil {
 		return nil, err
 	}
+
 	return order, nil
 }

@@ -51,13 +51,16 @@ func (client *Config) RatesForLocation(zip string, params ...RatesForLocationPar
 	if len(params) > 0 {
 		p = params[0]
 	}
+
 	res, err := client.get("rates/"+zip, p)
 	if err != nil {
 		return nil, err
 	}
+
 	rate := new(RatesForLocationResponse)
 	if err := json.Unmarshal(res.([]byte), &rate); err != nil {
 		return nil, err
 	}
+
 	return rate, nil
 }

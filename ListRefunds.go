@@ -25,9 +25,11 @@ func (client *Config) ListRefunds(params ListRefundsParams) (*ListRefundsRespons
 	if err != nil {
 		return nil, err
 	}
+
 	refunds := new(ListRefundsResponse)
 	if err := json.Unmarshal(res.([]byte), &refunds); err != nil {
 		return nil, err
 	}
+
 	return refunds, nil
 }

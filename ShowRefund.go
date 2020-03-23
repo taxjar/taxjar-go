@@ -41,13 +41,16 @@ func (client *Config) ShowRefund(transactionID string, params ...ShowRefundParam
 	if len(params) > 0 {
 		p = params[0]
 	}
+
 	res, err := client.get("transactions/refunds/"+transactionID, p)
 	if err != nil {
 		return nil, err
 	}
+
 	refund := new(ShowRefundResponse)
 	if err := json.Unmarshal(res.([]byte), &refund); err != nil {
 		return nil, err
 	}
+
 	return refund, nil
 }
