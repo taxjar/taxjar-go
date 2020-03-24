@@ -83,13 +83,14 @@ func (client *Config) addHeaders(req *http.Request) {
 	if client.APIKey == "" {
 		log.Fatal("taxjar: missing `APIKey` field must be set on client")
 	}
+
 	req.Header.Add("Authorization", "Bearer "+client.APIKey)
-	req.Header.Add("Content-type", "application/json")
+	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("User-Agent", getUserAgent())
+
 	for key, val := range client.Headers {
-		val, _ := val.(string)
-		if key != "Authorization" && key != "Content-type" && key != "User-Agent" {
-			req.Header.Add(key, val)
+		if key = http.CanonicalHeaderKey(key); key != "Authorization" && key != "Content-Type" && key != "User-Agent" {
+			req.Header.Add(key, val.(string))
 		}
 	}
 }
