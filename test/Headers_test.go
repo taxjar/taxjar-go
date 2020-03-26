@@ -43,8 +43,8 @@ var _ = Describe("Request headers:", func() {
 		badHeaders := map[string]interface{}{
 			// check different upper/lower casings
 			"Authorization": "a",
-			"Content-type": "b",
-			"user-agent": "c",
+			"Content-type":  "b",
+			"user-agent":    "c",
 		}
 		client.Headers = badHeaders
 
