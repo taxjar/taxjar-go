@@ -32,7 +32,11 @@ func (client *Config) UpdateCustomer(params UpdateCustomerParams) (*UpdateCustom
 	if err != nil {
 		return nil, err
 	}
+
 	customer := new(UpdateCustomerResponse)
-	json.Unmarshal(res.([]byte), &customer)
+	if err := json.Unmarshal(res.([]byte), &customer); err != nil {
+		return nil, err
+	}
+
 	return customer, nil
 }

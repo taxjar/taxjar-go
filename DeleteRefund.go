@@ -18,11 +18,20 @@ type DeleteRefundResponse struct {
 //
 // See https://developers.taxjar.com/api/reference/?go#delete-delete-a-refund-transaction for more details․
 func (client *Config) DeleteRefund(transactionID string, params ...DeleteRefundParams) (*DeleteRefundResponse, error) {
-	res, err := client.delete("transactions/refunds/"+transactionID, params)
+	var p interface{}
+	if len(params) > 0 {
+		p = params[0]
+	}
+
+	res, err := client.delete("transactions/refunds/"+transactionID, p)
 	if err != nil {
 		return nil, err
 	}
+
 	refund := new(DeleteRefundResponse)
-	json.Unmarshal(res.([]byte), &refund)
+	if err := json.Unmarshal(res.([]byte), &refund); err != nil {
+		return nil, err
+	}
+
 	return refund, nil
 }

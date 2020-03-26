@@ -18,11 +18,20 @@ type DeleteOrderResponse struct {
 //
 // See https://developers.taxjar.com/api/reference/?go#delete-delete-an-order-transaction for more details․
 func (client *Config) DeleteOrder(transactionID string, params ...DeleteOrderParams) (*DeleteOrderResponse, error) {
-	res, err := client.delete("transactions/orders/"+transactionID, params)
+	var p interface{}
+	if len(params) > 0 {
+		p = params[0]
+	}
+
+	res, err := client.delete("transactions/orders/"+transactionID, p)
 	if err != nil {
 		return nil, err
 	}
+
 	order := new(DeleteOrderResponse)
-	json.Unmarshal(res.([]byte), &order)
+	if err := json.Unmarshal(res.([]byte), &order); err != nil {
+		return nil, err
+	}
+
 	return order, nil
 }

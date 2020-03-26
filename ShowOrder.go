@@ -18,25 +18,34 @@ type ShowOrderResponse struct {
 //
 // OrderLineItem is also the structure for a line item returned within `CreateOrderResponse.Order.LineItems`, `UpdateOrderResponse.Order.LineItems`, `ShowOrderResponse.Order.LineItems`, and `DeleteOrderResponse.Order.LineItems`․
 type OrderLineItem struct {
-	ID                string  `json:"id,omitempty"`
-	Quantity          int     `json:"quantity,omitempty"`
-	ProductIdentifier string  `json:"product_identifier,omitempty"`
-	Description       string  `json:"description,omitempty"`
-	ProductTaxCode    string  `json:"product_tax_code,omitempty"`
-	UnitPrice         float64 `json:"unit_price,omitempty,string"`
-	Discount          float64 `json:"discount,omitempty,string"`
-	SalesTax          float64 `json:"sales_tax,omitempty,string"`
+	ID                json.Number `json:"id,omitempty"`
+	Quantity          int         `json:"quantity,omitempty"`
+	ProductIdentifier string      `json:"product_identifier,omitempty"`
+	Description       string      `json:"description,omitempty"`
+	ProductTaxCode    string      `json:"product_tax_code,omitempty"`
+	UnitPrice         float64     `json:"unit_price,omitempty,string"`
+	Discount          float64     `json:"discount,omitempty,string"`
+	SalesTax          float64     `json:"sales_tax,omitempty,string"`
 }
 
 // ShowOrder shows an existing order in TaxJar․
 //
 // See https://developers.taxjar.com/api/reference/?go#get-show-an-order-transaction for more details․
 func (client *Config) ShowOrder(transactionID string, params ...ShowOrderParams) (*ShowOrderResponse, error) {
-	res, err := client.get("transactions/orders/"+transactionID, params)
+	var p interface{}
+	if len(params) > 0 {
+		p = params[0]
+	}
+
+	res, err := client.get("transactions/orders/"+transactionID, p)
 	if err != nil {
 		return nil, err
 	}
+
 	order := new(ShowOrderResponse)
-	json.Unmarshal(res.([]byte), &order)
+	if err := json.Unmarshal(res.([]byte), &order); err != nil {
+		return nil, err
+	}
+
 	return order, nil
 }

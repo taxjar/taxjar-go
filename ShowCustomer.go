@@ -13,11 +13,15 @@ type ShowCustomerResponse struct {
 //
 // See https://developers.taxjar.com/api/reference/?go#get-show-a-customer for more details․
 func (client *Config) ShowCustomer(customerID string) (*ShowCustomerResponse, error) {
-	res, err := client.get("customers/" + customerID)
+	res, err := client.get("customers/"+customerID, nil)
 	if err != nil {
 		return nil, err
 	}
+
 	customer := new(ShowCustomerResponse)
-	json.Unmarshal(res.([]byte), &customer)
+	if err := json.Unmarshal(res.([]byte), &customer); err != nil {
+		return nil, err
+	}
+
 	return customer, nil
 }

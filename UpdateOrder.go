@@ -39,7 +39,11 @@ func (client *Config) UpdateOrder(params UpdateOrderParams) (*UpdateOrderRespons
 	if err != nil {
 		return nil, err
 	}
+
 	order := new(UpdateOrderResponse)
-	json.Unmarshal(res.([]byte), &order)
+	if err := json.Unmarshal(res.([]byte), &order); err != nil {
+		return nil, err
+	}
+
 	return order, nil
 }

@@ -25,7 +25,11 @@ func (client *Config) ListOrders(params ListOrdersParams) (*ListOrdersResponse, 
 	if err != nil {
 		return nil, err
 	}
+
 	orders := new(ListOrdersResponse)
-	json.Unmarshal(res.([]byte), &orders)
+	if err := json.Unmarshal(res.([]byte), &orders); err != nil {
+		return nil, err
+	}
+
 	return orders, nil
 }

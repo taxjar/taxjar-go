@@ -41,7 +41,11 @@ func (client *Config) CreateRefund(params CreateRefundParams) (*CreateRefundResp
 	if err != nil {
 		return nil, err
 	}
+
 	refund := new(CreateRefundResponse)
-	json.Unmarshal(res.([]byte), &refund)
+	if err := json.Unmarshal(res.([]byte), &refund); err != nil {
+		return nil, err
+	}
+
 	return refund, nil
 }
