@@ -1,12 +1,17 @@
 package taxjar
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net"
 	"net/http"
+	"os/exec"
+	"regexp"
+	"runtime"
+	"strings"
 	"time"
 
 	"github.com/google/go-querystring/query"
@@ -50,16 +55,42 @@ func (client *Config) url(endpoint string) string {
 	return fmt.Sprintf("%v/%v/%v", client.APIURL, client.APIVersion, endpoint)
 }
 
+func getUserAgent() string {
+	platform := runtime.GOOS
+	uname, err := exec.LookPath("uname")
+	if err == nil {
+		cmd := exec.Command(uname, "-a")
+		var out bytes.Buffer
+		cmd.Stderr = nil
+		cmd.Stdout = &out
+		err = cmd.Run()
+		if err == nil {
+			platform = strings.TrimSpace(out.String())
+		}
+	}
+
+	goVersion := runtime.Version()
+	re, _ := regexp.Compile(`go(.+)`)
+	matches := re.FindStringSubmatch(goVersion)
+	if len(matches) > 1 {
+		goVersion = fmt.Sprintf("%v", matches[1])
+	}
+
+	return fmt.Sprintf("TaxJar/Go (%v; %v; go %v) taxjar-go/%v", platform, runtime.GOARCH, goVersion, version)
+}
+
 func (client *Config) addHeaders(req *http.Request) {
 	if client.APIKey == "" {
 		log.Fatal("taxjar: missing `APIKey` field must be set on client")
 	}
+
 	req.Header.Add("Authorization", "Bearer "+client.APIKey)
-	req.Header.Add("Content-type", "application/json")
+	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("User-Agent", getUserAgent())
+
 	for key, val := range client.Headers {
-		val, _ := val.(string)
-		if key != "Authorization" && key != "Content-type" {
-			req.Header.Add(key, val)
+		if key = http.CanonicalHeaderKey(key); key != "Authorization" && key != "Content-Type" && key != "User-Agent" {
+			req.Header.Add(key, val.(string))
 		}
 	}
 }
