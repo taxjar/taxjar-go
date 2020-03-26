@@ -7,7 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.1.0] - 2020-03-26
+- Include custom user agent for debugging and informational purposes
+- Fix issue with query params not being passed in GET/DELETE requests
+- Change `OrderLineItem` `ID` to type `json.Number`
+
 ## [1.0.0] - 2019-09-13
 - Initial release
 
-[Unreleased]: https://github.com/taxjar/taxjar-go/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/taxjar/taxjar-go/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/taxjar/taxjar-go/compare/v1.0.0...v1.1.0
