@@ -14,6 +14,12 @@ matrix:
         - make lint
         - make vet
         - make test
+    - go: 1.16.x
+      script:
+      - make test
+    - go: 1.15.x
+      script:
+      - make test
     - go: 1.14.x
       script:
       - make test
