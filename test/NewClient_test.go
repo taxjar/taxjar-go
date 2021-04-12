@@ -1,14 +1,11 @@
 package test
 
 import (
-	"fmt"
-	"log"
 	"net"
 	"net/http"
 	"testing"
 	"time"
 
-	"bou.ke/monkey"
 	"github.com/taxjar/taxjar-go"
 
 	. "github.com/onsi/ginkgo"
@@ -49,20 +46,6 @@ var _ = Describe("NewClient without config", func() {
 		}
 		client.Headers = headers
 		Expect(client.Headers).To(Equal(headers))
-	})
-
-	It("should exit when no APIKey is set", func() {
-		fakeLogFatal := monkey.Patch(log.Fatal, func(msg ...interface{}) {
-			Expect(fmt.Sprintf("%v", msg[0])).To(MatchRegexp("taxjar:"))
-			panic("fake log.Fatal called")
-		})
-		defer fakeLogFatal.Unpatch()
-		defer func() {
-			if r := recover(); r == nil {
-				Fail("Expected log.Fatal to be called when no APIKey is set")
-			}
-		}()
-		client.Categories()
 	})
 
 	It("should allow setting a custom timeout", func() {
