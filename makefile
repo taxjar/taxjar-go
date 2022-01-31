@@ -5,7 +5,7 @@ example:
 	go run example/example.go
 
 test:
-	go test ./test -v
+	go test -v
 
 vet:
 	echo "\n\033[0;36mgo vet is vetting...\033[0m 🤨"
