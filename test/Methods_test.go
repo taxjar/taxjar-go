@@ -263,8 +263,8 @@ var _ = Describe("Method:", func() {
 			res, err := client.UpdateOrder(taxjar.UpdateOrderParams{
 
 				TransactionID: "24",
-				Amount:        161,
-				SalesTax:      10.3,
+				Amount:        taxjar.Float64(161),
+				SalesTax:      taxjar.Float64(10.3),
 				LineItems: []taxjar.OrderLineItem{
 					{
 						ID:                "1",
