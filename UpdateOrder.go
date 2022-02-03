@@ -16,9 +16,9 @@ type UpdateOrderParams struct {
 	ToState         string          `json:"to_state,omitempty"`
 	ToCity          string          `json:"to_city,omitempty"`
 	ToStreet        string          `json:"to_street,omitempty"`
-	Amount          float64         `json:"amount,omitempty"`
-	Shipping        float64         `json:"shipping,omitempty"`
-	SalesTax        float64         `json:"sales_tax,omitempty"`
+	Amount          *float64        `json:"amount,omitempty"`
+	Shipping        *float64        `json:"shipping,omitempty"`
+	SalesTax        *float64        `json:"sales_tax,omitempty"`
 	CustomerID      string          `json:"customer_id,omitempty"`
 	ExemptionType   string          `json:"exemption_type,omitempty"`
 	LineItems       []OrderLineItem `json:"line_items,omitempty"`
@@ -46,4 +46,16 @@ func (client *Config) UpdateOrder(params UpdateOrderParams) (*UpdateOrderRespons
 	}
 
 	return order, nil
+}
+
+func Float64Value(v *float64) float64 {
+	if v == nil {
+		return 0
+	}
+
+	return *v
+}
+
+func Float64(v float64) *float64 {
+	return &v
 }
