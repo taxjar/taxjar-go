@@ -48,14 +48,16 @@ func (client *Config) UpdateOrder(params UpdateOrderParams) (*UpdateOrderRespons
 	return order, nil
 }
 
-func Float64Value(v *float64) float64 {
-	if v == nil {
-		return 0
-	}
-
-	return *v
-}
-
+// Float64 returns a pointer to the float64 value passed in.
 func Float64(v float64) *float64 {
 	return &v
+}
+
+// Float64Value returns the value of the float64 pointer passed in or
+// 0 if the pointer is nil.
+func Float64Value(v *float64) float64 {
+	if v != nil {
+		return *v
+	}
+	return 0
 }
