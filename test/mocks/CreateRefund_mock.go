@@ -35,7 +35,7 @@ var CreateRefundJSON = `{
     "sales_tax": "-10.3",
     "line_items": [
       {
-        "id": 0,
+        "id": "0",
         "quantity": 1,
         "product_identifier": "10-12345-987",
         "product_tax_code": "20010",
@@ -45,7 +45,7 @@ var CreateRefundJSON = `{
         "sales_tax": "0.0"
       },
       {
-        "id": 1,
+        "id": "1",
         "quantity": 1,
         "product_identifier": "78-95432-101",
         "product_tax_code": "20010",

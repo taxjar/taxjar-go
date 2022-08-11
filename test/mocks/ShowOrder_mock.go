@@ -35,7 +35,7 @@ var ShowOrderJSON = `{
     "sales_tax": "0.0",
     "line_items": [
       {
-        "id": 0,
+        "id": "0",
         "quantity": 1,
         "product_identifier": "10-12345-987",
         "product_tax_code": "20010",
