@@ -8,12 +8,18 @@ install:
 
 matrix:
   include:
-    - go: tip
+    - go: 1.19.x
       script:
         - go get -u golang.org/x/lint/golint
         - make lint
         - make vet
         - make test
+    - go: 1.18.x
+      script:
+      - make test
+    - go: 1.17.x
+      script:
+      - make test
     - go: 1.16.x
       script:
       - make test
