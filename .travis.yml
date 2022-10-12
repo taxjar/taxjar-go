@@ -10,7 +10,7 @@ matrix:
   include:
     - go: 1.19.x
       script:
-        - go get -u golang.org/x/lint/golint
+        - go install golang.org/x/lint/golint@latest
         - make lint
         - make vet
         - make test
