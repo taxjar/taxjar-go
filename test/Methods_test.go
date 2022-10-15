@@ -254,7 +254,7 @@ var _ = Describe("Method:", func() {
 	})
 
 	Context("UpdateOrder", func() {
-		It("udpates an order", func() {
+		It("updates an order", func() {
 			server.AppendHandlers(ghttp.CombineHandlers(
 				ghttp.VerifyRequest("PUT", "/v2/transactions/orders/24"),
 				ghttp.RespondWith(http.StatusOK, mocks.UpdateOrderJSON),

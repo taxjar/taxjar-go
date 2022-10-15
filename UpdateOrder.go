@@ -42,7 +42,14 @@ func (client *Config) UpdateOrder(params UpdateOrderParams) (*UpdateOrderRespons
 
 	order := new(UpdateOrderResponse)
 	if err := json.Unmarshal(res.([]byte), &order); err != nil {
-		return nil, err
+		if typeError, ok := err.(*json.UnmarshalTypeError); ok {
+			// Ignores JSON line_item.id type errors due to API's conversion of numeric strings to integers
+			if !(typeError.Field == "order.line_items.id" && typeError.Value == "number") {
+				return nil, err
+			}
+		} else {
+			return nil, err
+		}
 	}
 
 	return order, nil
