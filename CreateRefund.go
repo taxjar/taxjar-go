@@ -44,7 +44,14 @@ func (client *Config) CreateRefund(params CreateRefundParams) (*CreateRefundResp
 
 	refund := new(CreateRefundResponse)
 	if err := json.Unmarshal(res.([]byte), &refund); err != nil {
-		return nil, err
+		if typeError, ok := err.(*json.UnmarshalTypeError); ok {
+			// Ignores JSON line_item.id type errors due to API's conversion of numeric strings to integers
+			if !(typeError.Field == "refund.line_items.id" && typeError.Value == "number") {
+				return nil, err
+			}
+		} else {
+			return nil, err
+		}
 	}
 
 	return refund, nil

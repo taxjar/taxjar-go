@@ -198,10 +198,11 @@ var _ = Describe("using a live/sandbox token", func() {
 	})
 
 	Context("UpdateOrder", func() {
-		It("udpates an order", func() {
+		It("updates an order", func() {
 			res, err := client.UpdateOrder(taxjar.UpdateOrderParams{
 				TransactionID: "24",
 				Amount:        161,
+				Shipping:      5,
 				SalesTax:      10.3,
 				LineItems: []taxjar.OrderLineItem{
 					{
@@ -305,6 +306,7 @@ var _ = Describe("using a live/sandbox token", func() {
 			res, err := client.UpdateRefund(taxjar.UpdateRefundParams{
 				TransactionID:          "24-refund",
 				TransactionReferenceID: "24",
+				Amount:                 -116,
 				Shipping:               -5,
 			})
 			Expect(err).NotTo(HaveOccurred())
