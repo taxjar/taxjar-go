@@ -18,14 +18,14 @@ type ShowOrderResponse struct {
 //
 // OrderLineItem is also the structure for a line item returned within `CreateOrderResponse.Order.LineItems`, `UpdateOrderResponse.Order.LineItems`, `ShowOrderResponse.Order.LineItems`, and `DeleteOrderResponse.Order.LineItems`․
 type OrderLineItem struct {
-	ID                json.Number `json:"id,omitempty"`
-	Quantity          int         `json:"quantity,omitempty"`
-	ProductIdentifier string      `json:"product_identifier,omitempty"`
-	Description       string      `json:"description,omitempty"`
-	ProductTaxCode    string      `json:"product_tax_code,omitempty"`
-	UnitPrice         float64     `json:"unit_price,omitempty,string"`
-	Discount          float64     `json:"discount,omitempty,string"`
-	SalesTax          float64     `json:"sales_tax,omitempty,string"`
+	ID                string  `json:"id,omitempty"`
+	Quantity          int     `json:"quantity,omitempty"`
+	ProductIdentifier string  `json:"product_identifier,omitempty"`
+	Description       string  `json:"description,omitempty"`
+	ProductTaxCode    string  `json:"product_tax_code,omitempty"`
+	UnitPrice         float64 `json:"unit_price,omitempty,string"`
+	Discount          float64 `json:"discount,omitempty,string"`
+	SalesTax          float64 `json:"sales_tax,omitempty,string"`
 }
 
 // ShowOrder shows an existing order in TaxJar․
@@ -44,8 +44,14 @@ func (client *Config) ShowOrder(transactionID string, params ...ShowOrderParams)
 
 	order := new(ShowOrderResponse)
 	if err := json.Unmarshal(res.([]byte), &order); err != nil {
-		return nil, err
+		if typeError, ok := err.(*json.UnmarshalTypeError); ok {
+			// Ignores JSON line_item.id type errors due to API's conversion of numeric strings to integers
+			if !(typeError.Field == "order.line_items.id" && typeError.Value == "number") {
+				return nil, err
+			}
+		} else {
+			return nil, err
+		}
 	}
-
 	return order, nil
 }
