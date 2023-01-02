@@ -104,9 +104,9 @@ func ExampleConfig_ListOrders() {
 func ExampleConfig_UpdateOrder() {
 	res, err := client.UpdateOrder(taxjar.UpdateOrderParams{
 		TransactionID: "13579-246810",
-		Amount:        152.72,
-		Shipping:      10,
-		SalesTax:      10.74,
+		Amount:        taxjar.Float64(152.72),
+		Shipping:      taxjar.Float64(10),
+		SalesTax:      taxjar.Float64(10.74),
 		LineItems: []taxjar.OrderLineItem{
 			{
 				ID:                "1",

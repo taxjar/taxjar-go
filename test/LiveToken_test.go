@@ -201,9 +201,9 @@ var _ = Describe("using a live/sandbox token", func() {
 		It("updates an order", func() {
 			res, err := client.UpdateOrder(taxjar.UpdateOrderParams{
 				TransactionID: "24",
-				Amount:        161,
-				Shipping:      5,
-				SalesTax:      10.3,
+				Amount:        taxjar.Float64(161),
+        Shipping:      taxjar.Float64(5),
+				SalesTax:      taxjar.Float64(10.3),
 				LineItems: []taxjar.OrderLineItem{
 					{
 						ID:                "1",
